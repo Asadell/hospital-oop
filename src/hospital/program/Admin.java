@@ -32,13 +32,14 @@ public class Admin extends Person {
         }
     }
 
-    public static boolean login(String username, String password) {
-        for (Admin user : admins) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return true;
-            }
+    public static Admin login(String username, String password) {
+      for (Admin user : admins) {
+        if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+          return user;
         }
-        return false;
+      }
+
+      return null;
     }
 
     public static boolean isUserRegistered(String username) {
@@ -47,6 +48,7 @@ public class Admin extends Person {
                 return true;
             }
         }
+
         return false;
     }
 

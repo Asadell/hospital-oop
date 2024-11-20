@@ -131,7 +131,8 @@ public class Register extends BaseFrame {
         formPanel.add(loginButton);
 
         content.add(formPanel);
-        content.setBackground(new Color(34, 34, 34));
+        content.setBackground(new Color(74, 73, 172));
+        // content.setBackground(new Color(34, 34, 34));
         // content.setBackground(new Color(75, 73, 172));
     }
 }

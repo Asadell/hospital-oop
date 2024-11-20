@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package hospital.pages.auth;
 
 import javax.swing.*;
@@ -5,7 +9,12 @@ import java.awt.*;
 import hospital.pages.base.BaseFrame;
 import hospital.pages.system.Dashboard;
 import hospital.program.Admin;
+import hospital.program.Session;
 
+/**
+ *
+ * @author LENOVO
+ */
 public class Login extends BaseFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -67,7 +76,13 @@ public class Login extends BaseFrame {
 
             if (username.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Fields cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (Admin.login(username, password)) {
+                return;
+            }
+
+            Admin loggedAdmin = Admin.login(username, password);
+            
+            if (loggedAdmin != null) {
+                Session.setCurrentUser(loggedAdmin);
                 JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 new Dashboard();
                 dispose();
@@ -91,7 +106,8 @@ public class Login extends BaseFrame {
 
         // Menambahkan form panel ke konten utama
         content.add(formPanel);
-        content.setBackground(new Color(34, 34, 34));
+        content.setBackground(new Color(74, 73, 172));
+        // content.setBackground(new Color(34, 34, 34));
         // content.setBackground(new Color(75, 73, 172));
     }
 }
