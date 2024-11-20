@@ -4,7 +4,9 @@
  */
 package hospital;
 
-import hospital.gui.HomePage;
+import hospital.pages.HomePage;
+import hospital.pages.auth.Login;
+import hospital.pages.system.Dashboard;
 
 /**
  *
@@ -17,7 +19,10 @@ public class HospitalOop {
      */
     public static void main(String[] args) {
         System.out.println("Asadel Uhuy");
-        new HomePage();
+        // new HomePage();
+//         new Dashboard();
+        new Login();
+        System.out.println("leh");
     }
     
 }
