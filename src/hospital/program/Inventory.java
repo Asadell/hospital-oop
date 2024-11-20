@@ -22,7 +22,6 @@ public class Inventory {
   }
 
   public boolean isExpired() {
-    // Check expiration logic
     return false;
   }
 

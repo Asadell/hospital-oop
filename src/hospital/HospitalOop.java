@@ -4,9 +4,8 @@
  */
 package hospital;
 
-import hospital.pages.HomePage;
 import hospital.pages.auth.Login;
-import hospital.pages.system.Dashboard;
+import hospital.program.Admin;
 
 /**
  *
@@ -18,11 +17,11 @@ public class HospitalOop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Asadel Uhuy");
-        // new HomePage();
-//         new Dashboard();
+        initData();
         new Login();
-        System.out.println("leh");
     }
     
+    private static void initData() {
+        Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
+    }
 }

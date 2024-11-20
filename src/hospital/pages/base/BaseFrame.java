@@ -14,13 +14,12 @@ import hospital.util.ColorPalette;
  * @author LENOVO
  */
 public abstract class BaseFrame extends JFrame {
-    private ColorPalette color = new ColorPalette();
-    private JPanel sidebar = new JPanel();
-    private JPanel header = new JPanel();
-    private JPanel content = new JPanel();
-    
     private boolean isDashboard;
-    
+    protected ColorPalette color = new ColorPalette();
+    protected JPanel sidebar = new JPanel();
+    protected JPanel header = new JPanel();
+    protected JPanel content = new JPanel();
+
     public BaseFrame(String title, boolean isDashboard) {
         super(title);
         this.isDashboard = isDashboard;
@@ -50,10 +49,11 @@ public abstract class BaseFrame extends JFrame {
             add(sidebar);
 
             content.setBounds(300, 72, 980, 648);
+            content.setBackground(color.BACKGROUND);
         } else {
             content.setBounds(0, 0, 1280, 720);
+            content.setBackground(color.PRIMARY_PURPLE);
         }
-        content.setBackground(color.BACKGROUND);
         content.setLayout(null);
 
         add(content);

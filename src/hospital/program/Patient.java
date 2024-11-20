@@ -14,7 +14,7 @@ public class Patient extends Person {
   private String address;
   private String phone;
   private String insuranceInfo;
-  private Wallet wallet; // Aggregation relationship with Wallet
+  private Wallet wallet; // Aggregation
 
   public Patient(int id, String firstName, String lastName, String dob, String gender, String address, String phone, String insuranceInfo) {
     super(id, firstName, lastName);

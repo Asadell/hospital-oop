@@ -14,7 +14,7 @@ public class Wallet {
 
   public Wallet(int walletId) {
     this.walletId = walletId;
-    this.balance = 0.0; // Default balance
+    this.balance = 0.0;
   }
 
   public void addBalance(double amount) {
