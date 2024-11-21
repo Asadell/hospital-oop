@@ -58,7 +58,7 @@ public class DoctorFrame extends BaseFrame {
     tableModel = new DefaultTableModel(columnNames, 0) {
       @Override
       public boolean isCellEditable(int row, int column) {
-          return column == 5 || column == 6;
+        return column == 5 || column == 6;
       }
     };
     table = new JTable(tableModel);

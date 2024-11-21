@@ -22,6 +22,10 @@ public class Doctor extends Person implements Schedulable { // Inheritance, Impl
     this.schedule = schedule;
   }
 
+  public String toString() {
+      return getFirstName() + " " + getLastName() + " (" + specialization + ")";
+  }
+
   public static List<Doctor> getDoctors() {
     return doctors;
   }
@@ -66,6 +70,16 @@ public class Doctor extends Person implements Schedulable { // Inheritance, Impl
     }
     System.out.println("Doctor with ID " + id + " not found!");
     return false;
+  }
+
+  public static Doctor getDoctorById(int id) {
+    for (Doctor doctor : doctors) {
+      if (doctor.getId() == id) {
+        return doctor;
+      }
+    }
+
+    return null;
   }
 
   public String getSpecialization() {

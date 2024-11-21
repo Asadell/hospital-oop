@@ -83,6 +83,16 @@ public class Patient extends Person {
     return false;
   }
 
+  public static Patient getPatientById(int id) {
+    for (Patient patient : patients) {
+      if (patient.getId() == id) {
+        return patient;
+      }
+    }
+
+    return null;
+  }
+
   public String getDob() {
     return dob;
   }

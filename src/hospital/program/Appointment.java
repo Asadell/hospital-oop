@@ -4,18 +4,25 @@
  */
 package hospital.program;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author LENOVO
  */
-public class Appointment implements Schedulable { // Implementation
+public class Appointment { // Implementation
   private int appointmentId;
   private Patient patient; // Association
   private Doctor doctor;   // Association
-  private String appointmentDate;
+  private LocalDateTime appointmentDate;
   private String status;
+  private static int lastId = 1;
 
-  public Appointment(int appointmentId, Patient patient, Doctor doctor, String appointmentDate, String status) {
+  private static List<Appointment> appointments = new ArrayList<>();
+
+  public Appointment(int appointmentId, Patient patient, Doctor doctor, LocalDateTime appointmentDate, String status) {
     this.appointmentId = appointmentId;
     this.patient = patient;
     this.doctor = doctor;
@@ -23,12 +30,48 @@ public class Appointment implements Schedulable { // Implementation
     this.status = status;
   }
 
-  public String getSchedule() {
+  public static void addAppointment(Appointment appointment) {
+    if (appointment != null) {
+      appointments.add(appointment);
+      System.out.println("Appointment added successfully!");
+    } else {
+      System.out.println("Appointment cannot be null!");
+    }
+  }
+
+  public static void addAppointment(Patient patient, Doctor doctor, LocalDateTime appointmentDate, String status) {
+    int id = lastId++;
+    Appointment Appointment = new Appointment(id, patient, doctor, appointmentDate, status);
+    addAppointment(Appointment);
+  }
+
+  public static boolean updateAppointmentById(int appointmentId, Patient patient, Doctor doctor, LocalDateTime appointmentDate, String status) {
+    for (Appointment appointment : appointments) {
+      if (appointment.getAppointmentId() == appointmentId) {
+        appointment.setPatient(patient);
+        appointment.setDoctor(doctor);
+        appointment.setSchedule(appointmentDate);
+        appointment.setStatus(status);
+        return true; // Appointment updated successfully
+      }
+    }
+    return false; // Appointment not found
+  }
+  
+  public static int getLastId() {
+    return lastId;
+  }
+
+  public static List<Appointment> getAppointments() {
+    return appointments;
+  }
+
+  public LocalDateTime getAppointmentDate() {
     return appointmentDate;
   }
 
-  public void setSchedule(String schedule) {
-    this.appointmentDate = schedule;
+  public void setSchedule(LocalDateTime appointmentDate) {
+    this.appointmentDate = appointmentDate;
   }
 
   public int getAppointmentId() {

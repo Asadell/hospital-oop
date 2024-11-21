@@ -20,6 +20,10 @@ public class Person {
         this.lastName = lastName;
     }
 
+    public String toString() {
+        return firstName + " " + lastName;
+    }
+
     public int getId() {
         return id;
     }
