@@ -17,6 +17,7 @@ public class Department {
   private Doctor headDoctor; // Association
   private List<Doctor> doctors; 
   private List<Inventory> inventories;
+  private static int lastId = 1;
 
   public Department(int departmentId, String name, Doctor headDoctor) {
     this.departmentId = departmentId;
@@ -24,6 +25,60 @@ public class Department {
     this.headDoctor = headDoctor;
     this.doctors = new ArrayList<>();
     this.inventories = new ArrayList<>();
+  }
+
+  private static List<Department> departments = new ArrayList<>();
+
+  public static int getLastId() {
+    return lastId;
+  }
+
+  public static void addDepartment(Department department) {
+    if (department != null) {
+      departments.add(department);
+      System.out.println("Department added successfully!");
+    } else {
+      System.out.println("Department cannot be null!");
+    }
+  }
+
+  public static void addDepartment(String name, Doctor headDoctor) {
+    int id = lastId++;
+    Department Department = new Department(id, name, headDoctor);
+    addDepartment(Department);
+  }
+
+  public static boolean editDepartmentById(int id, String name, Doctor headDoctor) {
+    for (Department department : departments) {
+      if (department.getDepartmentId() == id) {
+        department.setName(name);
+        department.setHeadDoctor(headDoctor);
+        System.out.println("Department with ID " + id + " updated successfully!");
+        return true;
+      }
+    }
+    System.out.println("Department with ID " + id + " not found!");
+    return false;
+  }
+
+  public static boolean deleteDepartmentById(int id) {
+    for (int i = 0; i < departments.size(); i++) {
+      if (departments.get(i).getDepartmentId() == id) {
+        departments.remove(i);
+        System.out.println("Department with ID " + id + " deleted successfully!");
+        return true;
+      }
+    }
+    System.out.println("Department with ID " + id + " not found!");
+    return false;
+  }
+
+  public static List<Department> getDepartments() {
+    return departments;
+  }
+
+  public String toString() {
+    return getName();
   }
 
   public List<Inventory> getInventories() {

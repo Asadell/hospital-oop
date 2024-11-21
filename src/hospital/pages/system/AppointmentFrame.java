@@ -61,7 +61,7 @@ public class AppointmentFrame extends BaseFrame {
     tableModel = new DefaultTableModel(columnNames, 0) {
       @Override
       public boolean isCellEditable(int row, int column) {
-          return column == 4 || column == 5;
+          return column == 5;
       }
     };
     table = new JTable(tableModel);
@@ -69,7 +69,6 @@ public class AppointmentFrame extends BaseFrame {
     table.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
     table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JButton("Edit"), "edit"));
 
-    
     JScrollPane scrollPane = new JScrollPane(table);
     scrollPane.setBounds(40, 113, 820, 415);
     content.add(scrollPane);

@@ -10,6 +10,7 @@ import hospital.pages.auth.Login;
 import hospital.pages.system.DashboardFrame;
 import hospital.program.Admin;
 import hospital.program.Appointment;
+import hospital.program.Department;
 import hospital.program.Doctor;
 import hospital.program.Patient;
 import hospital.program.Session;
@@ -85,6 +86,12 @@ public class HospitalOop {
         Appointment.addAppointment(patient8, doctor18, appointmentDate, "Scheduled");
         Appointment.addAppointment(patient9, doctor19, appointmentDate, "Scheduled");
         Appointment.addAppointment(patient10, doctor20, appointmentDate, "Scheduled");
+
+        Department.addDepartment("Cardiology", doctor11);
+        Department.addDepartment("Neurology", doctor12);
+        Department.addDepartment("Orthopedics", doctor13);
+        Department.addDepartment("Pediatrics", doctor14);
+        Department.addDepartment("Gastroenterology", doctor15);
 
         Admin admin = new Admin(1, "Satrio", "Asadel", "admin", "admin123");
         Session.setCurrentUser(admin);

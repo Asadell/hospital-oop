@@ -4,6 +4,9 @@
  */
 package hospital.program;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author LENOVO
@@ -13,12 +16,14 @@ public class Inventory {
   private String itemName;
   private int quantity;
   private String expirationDate;
+  private Department department;
 
-  public Inventory(int inventoryId, String itemName, int quantity, String expirationDate) {
+  public Inventory(int inventoryId, String itemName, int quantity, String expirationDate, Department department) {
     this.inventoryId = inventoryId;
     this.itemName = itemName;
     this.quantity = quantity;
     this.expirationDate = expirationDate;
+    this.department = department;
   }
 
   public boolean isExpired() {
