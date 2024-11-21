@@ -12,6 +12,7 @@ public class Person {
     private int id;
     private String firstName;
     private String lastName;
+    protected static int lastId = 1;
 
     public Person(int id, String firstName, String lastName) {
         this.id = id;
