@@ -84,7 +84,7 @@ public class AppointmentFrame extends BaseFrame {
         index++,
         appointment.getPatient().toString(),
         appointment.getDoctor().toString(),
-        appointment.getAppointmentDate(),
+        appointment.getSchedule(),
         appointment.getStatus(),
         "Edit",
         appointment.getAppointmentId(),

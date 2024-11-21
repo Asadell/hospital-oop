@@ -14,6 +14,8 @@ public class Person {
     private String lastName;
     protected static int lastId = 1;
 
+    public Person(){}
+
     public Person(int id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;

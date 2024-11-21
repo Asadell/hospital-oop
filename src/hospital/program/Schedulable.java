@@ -4,11 +4,13 @@
  */
 package hospital.program;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author LENOVO
  */
 public interface Schedulable {
-    String getSchedule();
-    void setSchedule(String schedule);
+    LocalDateTime getSchedule();
+    void setSchedule(LocalDateTime schedule);
 }

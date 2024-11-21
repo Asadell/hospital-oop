@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.swing.AbstractCellEditor;
@@ -113,14 +115,15 @@ public class DoctorFrame extends BaseFrame {
         String firstName = firstNameField.getText().trim();
         String lastName = lastNameField.getText().trim();
         String specialization = specializationField.getText().trim();
-        String schedule = scheduleField.getText().trim();
+        LocalDate schedule = LocalDate.parse(scheduleField.getText().trim());
 
-        if (firstName.isEmpty() || lastName.isEmpty() || specialization.isEmpty() || schedule.isEmpty()) {
-            throw new IllegalArgumentException("All fields are required.");
+        if (firstName.isEmpty() || lastName.isEmpty() || specialization.isEmpty() || schedule == null) {
+          throw new IllegalArgumentException("All fields are required.");
         }
 
-        Doctor.addDoctor(firstName, lastName, specialization, schedule);
-        tableModel.addRow(new Object[]{index++, firstName, lastName, specialization, schedule, "Edit", "Delete"});
+        LocalDateTime dateTime = schedule.atStartOfDay();
+        Doctor.addDoctor(firstName, lastName, specialization, dateTime);
+        tableModel.addRow(new Object[]{index++, firstName, lastName, specialization, dateTime, "Edit", "Delete"});
 
         JOptionPane.showMessageDialog(this, "Doctor added successfully!");
       } catch (NumberFormatException ex) {
@@ -184,12 +187,12 @@ public class DoctorFrame extends BaseFrame {
     String firstName = (String) tableModel.getValueAt(row, 1);
     String lastName = (String) tableModel.getValueAt(row, 2);
     String specialization = (String) tableModel.getValueAt(row, 3);
-    String schedule = (String) tableModel.getValueAt(row, 4);
+    LocalDateTime schedule = (LocalDateTime) tableModel.getValueAt(row, 4);
 
     JTextField firstNameField = new JTextField(firstName);
     JTextField lastNameField = new JTextField(lastName);
     JTextField specializationField = new JTextField(specialization);
-    JTextField scheduleField = new JTextField(schedule);
+    JTextField scheduleField = new JTextField(schedule.toLocalDate().toString());
 
     Object[] message = {
       "First Name:", firstNameField,
@@ -200,18 +203,19 @@ public class DoctorFrame extends BaseFrame {
 
     int option = JOptionPane.showConfirmDialog(
       this, 
-      message, 
+      message,
       "Edit Doctor", 
       JOptionPane.OK_CANCEL_OPTION
     );
 
     if (option == JOptionPane.OK_OPTION) {
+      LocalDateTime newSchedule = LocalDateTime.parse(scheduleField.getText() + "T00:00:00");
       boolean updated = Doctor.editDoctorById(
         doctorId,
         firstNameField.getText(),
         lastNameField.getText(),
         specializationField.getText(),
-        scheduleField.getText()
+        newSchedule
       );
 
       if (updated) {

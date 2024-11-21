@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author LENOVO
  */
-public class Appointment { // Implementation
+public class Appointment implements Schedulable { // Implementation
   private int appointmentId;
   private Patient patient; // Association
   private Doctor doctor;   // Association
@@ -68,7 +68,7 @@ public class Appointment { // Implementation
     return appointments;
   }
 
-  public LocalDateTime getAppointmentDate() {
+  public LocalDateTime getSchedule() {
     return appointmentDate;
   }
 

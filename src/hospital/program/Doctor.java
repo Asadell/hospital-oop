@@ -4,6 +4,7 @@
  */
 package hospital.program;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +14,12 @@ import java.util.List;
  */
 public class Doctor extends Person implements Schedulable { // Inheritance, Implementation
   private String specialization;
-  private String schedule;
+  private LocalDateTime schedule;
   private static List<Doctor> doctors = new ArrayList<>();
 
-  public Doctor(int id, String firstName, String lastName, String specialization, String schedule) {
+  public Doctor(){}
+
+  public Doctor(int id, String firstName, String lastName, String specialization, LocalDateTime schedule) {
     super(id, firstName, lastName);
     this.specialization = specialization;
     this.schedule = schedule;
@@ -39,13 +42,13 @@ public class Doctor extends Person implements Schedulable { // Inheritance, Impl
     }
   }
 
-  public static void addDoctor(String firstName, String lastName, String specialization, String schedule) {
+  public static void addDoctor(String firstName, String lastName, String specialization, LocalDateTime schedule) {
     int id = lastId++;
     Doctor doctor = new Doctor(id, firstName, lastName, specialization,  schedule);
     addDoctor(doctor);
   }
 
-  public static boolean editDoctorById(int id, String firstName, String lastName, String specialization, String schedule) {
+  public static boolean editDoctorById(int id, String firstName, String lastName, String specialization, LocalDateTime schedule) {
     for (Doctor doctor : doctors) {
       if (doctor.getId() == id) {
         doctor.setFirstName(firstName);
@@ -90,11 +93,11 @@ public class Doctor extends Person implements Schedulable { // Inheritance, Impl
     this.specialization = specialization;
   }
 
-  public String getSchedule() {
+  public LocalDateTime getSchedule() {
     return schedule;
   }
 
-  public void setSchedule(String schedule) {
+  public void setSchedule(LocalDateTime schedule) {
     this.schedule = schedule;
   }
 }

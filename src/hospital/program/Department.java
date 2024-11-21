@@ -14,7 +14,7 @@ import java.util.List;
 public class Department {
   private int departmentId;
   private String name;
-  private Doctor headDoctor; // Association
+  private Doctor headDoctor = new Doctor(); // Composition
   private List<Doctor> doctors; 
   private static int lastId = 1;
   private static List<Department> departments = new ArrayList<>();
