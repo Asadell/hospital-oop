@@ -12,6 +12,7 @@ import hospital.program.Admin;
 import hospital.program.Appointment;
 import hospital.program.Department;
 import hospital.program.Doctor;
+import hospital.program.Inventory;
 import hospital.program.Patient;
 import hospital.program.Session;
 
@@ -92,6 +93,23 @@ public class HospitalOop {
         Department.addDepartment("Orthopedics", doctor13);
         Department.addDepartment("Pediatrics", doctor14);
         Department.addDepartment("Gastroenterology", doctor15);
+
+        Department department1 = Department.getDepartmentById(1);
+        Department department2 = Department.getDepartmentById(2);
+        Department department3 = Department.getDepartmentById(3);
+        Department department4 = Department.getDepartmentById(4);
+        Department department5 = Department.getDepartmentById(5);
+
+        Inventory.addInventory("Paracetamol", 100, LocalDateTime.of(2024, 12, 30, 0, 0), department1);
+        Inventory.addInventory("Syringes", 200, LocalDateTime.of(2025, 1, 15, 0, 0), department2);
+        Inventory.addInventory("Stethoscope", 50, LocalDateTime.of(2027, 6, 30, 0, 0), department3);
+        Inventory.addInventory("X-ray Film", 30, LocalDateTime.of(2025, 3, 20, 0, 0), department4);
+        Inventory.addInventory("Blood Bags", 70, LocalDateTime.of(2024, 11, 25, 0, 0), department5);
+        Inventory.addInventory("Insulin", 120, LocalDateTime.of(2024, 12, 10, 0, 0), department1);
+        Inventory.addInventory("Scalpel Blades", 80, LocalDateTime.of(2025, 8, 5, 0, 0), department2);
+        Inventory.addInventory("ECG Electrodes", 90, LocalDateTime.of(2024, 9, 15, 0, 0), department3);
+        Inventory.addInventory("MRI Contrast Dye", 20, LocalDateTime.of(2025, 2, 1, 0, 0), department4);
+        Inventory.addInventory("Defibrillator Pads", 40, LocalDateTime.of(2026, 4, 30, 0, 0), department5);
 
         Admin admin = new Admin(1, "Satrio", "Asadel", "admin", "admin123");
         Session.setCurrentUser(admin);

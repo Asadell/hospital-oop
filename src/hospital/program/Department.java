@@ -16,21 +16,14 @@ public class Department {
   private String name;
   private Doctor headDoctor; // Association
   private List<Doctor> doctors; 
-  private List<Inventory> inventories;
   private static int lastId = 1;
+  private static List<Department> departments = new ArrayList<>();
 
   public Department(int departmentId, String name, Doctor headDoctor) {
     this.departmentId = departmentId;
     this.name = name;
     this.headDoctor = headDoctor;
     this.doctors = new ArrayList<>();
-    this.inventories = new ArrayList<>();
-  }
-
-  private static List<Department> departments = new ArrayList<>();
-
-  public static int getLastId() {
-    return lastId;
   }
 
   public static void addDepartment(Department department) {
@@ -73,20 +66,26 @@ public class Department {
     return false;
   }
 
+  public static Department getDepartmentById(int id) {
+    for (Department department : departments) {
+      if (department.getDepartmentId() == id) {
+        return department;
+      }
+    }
+
+    return null;
+  }
+
+  public static int getLastId() {
+    return lastId;
+  }
+
   public static List<Department> getDepartments() {
     return departments;
   }
 
   public String toString() {
     return getName();
-  }
-
-  public List<Inventory> getInventories() {
-    return inventories;
-  }
-
-  public void setInventories(List<Inventory> inventories) {
-    this.inventories = inventories;
   }
 
   public void addDoctor(Doctor doctor) {
