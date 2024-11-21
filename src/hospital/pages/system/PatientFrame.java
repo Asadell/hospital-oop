@@ -31,6 +31,7 @@ import hospital.program.Patient;
  * @author LENOVO
  */
 public class PatientFrame extends BaseFrame {
+  private int index = 1;
   private JTable table;
   private DefaultTableModel tableModel;
 
@@ -257,8 +258,8 @@ public class PatientFrame extends BaseFrame {
             throw new IllegalArgumentException("All fields are required.");
         }
 
-        Patient patient = Patient.addPatient(firstName, lastName, dob, gender, address, phone, insuranceInfo);
-        tableModel.addRow(new Object[]{patient.getId(), firstName, lastName, dob, gender, address, phone, insuranceInfo, "Edit", "Delete"});
+        Patient.addPatient(firstName, lastName, dob, gender, address, phone, insuranceInfo);
+        tableModel.addRow(new Object[]{index++, firstName, lastName, dob, gender, address, phone, insuranceInfo, "Edit", "Delete"});
 
         JOptionPane.showMessageDialog(this, "Patient added successfully!");
       } catch (NumberFormatException ex) {

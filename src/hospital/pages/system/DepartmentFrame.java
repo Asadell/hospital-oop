@@ -6,6 +6,7 @@ package hospital.pages.system;
 
 import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import hospital.pages.base.BaseFrame;
@@ -25,5 +26,14 @@ public class DepartmentFrame extends BaseFrame {
     title.setFont(new Font("Arial", Font.BOLD, 24));
     title.setBounds(20, 20, 200, 30);
     content.add(title);
+
+    JButton addButton = new JButton("Add Departement");
+    addButton.setBounds(740, 60, 120, 30);
+    addButton.addActionListener(e -> addDepartment());
+    content.add(addButton);
+  }
+
+  private void addDepartment() {
+    System.out.println("duh");
   }
 }

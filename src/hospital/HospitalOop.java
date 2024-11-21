@@ -7,6 +7,7 @@ package hospital;
 import hospital.pages.auth.Login;
 import hospital.pages.system.DashboardFrame;
 import hospital.program.Admin;
+import hospital.program.Doctor;
 import hospital.program.Patient;
 import hospital.program.Session;
 
@@ -36,6 +37,17 @@ public class HospitalOop {
         Patient.addPatient("Anna", "Anderson", "1998-08-08", "Female", "505 Spruce St", "555-6543", "STU Insurance");
         Patient.addPatient("Robert", "Thomas", "1983-09-09", "Male", "606 Walnut St", "555-1111", "VWX Insurance");
         Patient.addPatient("Sophia", "Martin", "1996-10-10", "Female", "707 Chestnut St", "555-2222", "YZA Insurance");
+        Doctor.addDoctor("Ahmad", "Suryadi", "Cardiology", "Monday, Wednesday, Friday - 08:00 to 14:00");
+        Doctor.addDoctor("Siti", "Nurhaliza", "Dermatology", "Tuesday, Thursday - 10:00 to 16:00");
+        Doctor.addDoctor("Budi", "Santoso", "Pediatrics", "Monday, Thursday - 09:00 to 13:00");
+        Doctor.addDoctor("Indah", "Pratiwi", "Gynecology", "Tuesday, Friday - 10:00 to 14:00");
+        Doctor.addDoctor("Rizki", "Hakim", "Neurology", "Wednesday, Saturday - 08:00 to 12:00");
+        Doctor.addDoctor("Lestari", "Putri", "Orthopedics", "Monday, Friday - 14:00 to 18:00");
+        Doctor.addDoctor("Dian", "Hartono", "Ophthalmology", "Tuesday, Thursday - 08:00 to 12:00");
+        Doctor.addDoctor("Agung", "Prasetyo", "Psychiatry", "Monday, Wednesday - 10:00 to 15:00");
+        Doctor.addDoctor("Citra", "Wijaya", "General Practitioner", "Everyday - 09:00 to 18:00");
+        Doctor.addDoctor("Fajar", "Hidayat", "Pulmonology", "Wednesday, Saturday - 10:00 to 14:00");
+
         // Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
         Admin admin = new Admin(1, "Satrio", "Asadel", "admin", "admin123");
         Session.setCurrentUser(admin);

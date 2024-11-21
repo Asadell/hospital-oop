@@ -35,20 +35,18 @@ public class Patient extends Person {
 
   public static void addPatient(Patient patient) {
     if (patient != null) {
-        patient.createWallet(); // Create the wallet before adding the patient
-        patients.add(patient);
-        System.out.println("Patient added successfully!");
+      patient.createWallet(); // Create the wallet before adding the patient
+      patients.add(patient);
+      System.out.println("Patient added successfully!");
     } else {
-        System.out.println("Patient cannot be null!");
+      System.out.println("Patient cannot be null!");
     }
-}
+  }
 
-// Overloaded method to add a patient directly with parameters
-  public static Patient addPatient(String firstName, String lastName, String dob, String gender, String address, String phone, String insuranceInfo) {
+  public static void addPatient(String firstName, String lastName, String dob, String gender, String address, String phone, String insuranceInfo) {
     int id = lastId++;
     Patient patient = new Patient(id, firstName, lastName, dob, gender, address, phone, insuranceInfo);
     addPatient(patient);
-    return patient;
   }
 
   public static List<Patient> getPatients() {
@@ -74,17 +72,16 @@ public class Patient extends Person {
   }
 
   public static boolean deletePatientById(int id) {
-    // Cari pasien berdasarkan ID dan hapus dari daftar
     for (int i = 0; i < patients.size(); i++) {
-        if (patients.get(i).getId() == id) {
-            patients.remove(i); // Hapus pasien dari daftar
-            System.out.println("Patient with ID " + id + " deleted successfully!");
-            return true; // Return true jika berhasil dihapus
-        }
+      if (patients.get(i).getId() == id) {
+        patients.remove(i);
+        System.out.println("Patient with ID " + id + " deleted successfully!");
+        return true;
+      }
     }
     System.out.println("Patient with ID " + id + " not found!");
-    return false; // Return false jika ID tidak ditemukan
-}
+    return false;
+  }
 
   public String getDob() {
     return dob;
