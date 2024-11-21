@@ -4,19 +4,26 @@
  */
 package hospital.pages.system;
 
+import java.awt.Font;
+
+import javax.swing.JLabel;
+
 import hospital.pages.base.BaseFrame;
 
 /**
  *
  * @author LENOVO
  */
-public class Dashboard extends BaseFrame {
-  public Dashboard() {
-    super("Dashboard", true);
+public class PatientFrame extends BaseFrame {
+  public PatientFrame() {
+    super("Patient", true);
     setupContent();
   }
 
   protected void setupContent() {
-    System.out.println("Dashboard");
+    JLabel title = new JLabel("Patient Panel");
+    title.setFont(new Font("Arial", Font.BOLD, 24));
+    title.setBounds(20, 20, 200, 30);
+    content.add(title);
   }
 }

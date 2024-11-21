@@ -7,7 +7,7 @@ package hospital.pages.auth;
 import javax.swing.*;
 import java.awt.*;
 import hospital.pages.base.BaseFrame;
-import hospital.pages.system.Dashboard;
+import hospital.pages.system.DashboardFrame;
 import hospital.program.Admin;
 import hospital.program.Session;
 
@@ -84,7 +84,7 @@ public class Login extends BaseFrame {
             if (loggedAdmin != null) {
                 Session.setCurrentUser(loggedAdmin);
                 JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                new Dashboard();
+                new DashboardFrame();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);

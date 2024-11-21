@@ -5,7 +5,7 @@
 package hospital;
 
 import hospital.pages.auth.Login;
-import hospital.pages.system.Dashboard;
+import hospital.pages.system.DashboardFrame;
 import hospital.program.Admin;
 import hospital.program.Session;
 
@@ -21,7 +21,7 @@ public class HospitalOop {
     public static void main(String[] args) {
         initData();
         // new Login();
-        new Dashboard();
+        new DashboardFrame();
     }
     
     private static void initData() {

@@ -1,5 +1,15 @@
 package hospital.pages.components;
 
+import hospital.pages.auth.Login;
+import hospital.pages.system.AppointmentFrame;
+import hospital.pages.system.BillingFrame;
+import hospital.pages.system.DashboardFrame;
+import hospital.pages.system.DepartmentFrame;
+import hospital.pages.system.DoctorFrame;
+import hospital.pages.system.InventoryFrame;
+import hospital.pages.system.PatientFrame;
+import hospital.pages.system.WalletFrame;
+import hospital.program.Session;
 import hospital.util.ColorPalette;
 import javax.swing.*;
 import java.awt.*;
@@ -22,25 +32,25 @@ public class Sidebar extends JPanel {
         dashboard.addActionListener(e -> goToDashboard());
         
         JButton patient = createSidebarButton("Patient", 80);
-        patient.addActionListener(e -> goToSettings());
+        patient.addActionListener(e -> goToPatient());
         
         JButton doctor = createSidebarButton("Doctor", 140);
-        doctor.addActionListener(e -> goToSettings());
+        doctor.addActionListener(e -> goToDoctor());
         
         JButton appoinment = createSidebarButton("Appointment", 200);
-        appoinment.addActionListener(e -> goToSettings());
+        appoinment.addActionListener(e -> goToAppointment());
         
         JButton billing = createSidebarButton("Billing", 260);
-        billing.addActionListener(e -> goToSettings());
+        billing.addActionListener(e -> goToBilling());
         
         JButton inventory = createSidebarButton("Inventory", 320);
-        inventory.addActionListener(e -> goToSettings());
+        inventory.addActionListener(e -> goToInventory());
         
         JButton department = createSidebarButton("Department", 380);
-        department.addActionListener(e -> goToSettings());
+        department.addActionListener(e -> goToDepartment());
         
         JButton wallet = createSidebarButton("Wallet", 440);
-        wallet.addActionListener(e -> goToSettings());
+        wallet.addActionListener(e -> goToWallet());
         
         JButton logout = createSidebarButton("Logout", 500);
         logout.addActionListener(e -> goToLogout());
@@ -81,15 +91,48 @@ public class Sidebar extends JPanel {
     }
     
     private void goToDashboard() {
-        System.out.println("Navigating to Dashboard");
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new DashboardFrame();
     }
     
-    private void goToSettings() {
-        System.out.println("Navigating to Settings");
+    private void goToPatient() {
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new PatientFrame();
+    }
+
+    private void goToDoctor() {
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new DoctorFrame();
+    }
+    
+    private void goToAppointment() {
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new AppointmentFrame();
+    }
+    
+    private void goToBilling() {
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new BillingFrame();
+    }
+    
+    private void goToInventory() {
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new InventoryFrame();
+    }
+    
+    private void goToDepartment() {
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new DepartmentFrame();
+    }
+    
+    private void goToWallet() {
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new WalletFrame();
     }
 
     private void goToLogout() {
-        System.out.println("Logging out...");
-        System.exit(0);
+        Session.clear();
+        SwingUtilities.getWindowAncestor(this).dispose();
+        new Login();
     }
 }
