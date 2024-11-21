@@ -35,7 +35,7 @@ public class Patient extends Person {
 
   public static void addPatient(Patient patient) {
     if (patient != null) {
-      patient.createWallet(); // Create the wallet before adding the patient
+      // patient.createWallet();
       patients.add(patient);
       System.out.println("Patient added successfully!");
     } else {
@@ -52,6 +52,16 @@ public class Patient extends Person {
   public static List<Patient> getPatients() {
     return patients;
   }
+
+  public static List<Patient> getPatientsWithWallet() {
+    List<Patient> patientsWithWallet = new ArrayList<>();
+    for (Patient patient : patients) {
+      if (patient.hasWallet()) {
+        patientsWithWallet.add(patient);
+      }
+    }
+    return patientsWithWallet;
+}
 
   public static boolean editPatientById(int id, String firstName, String lastName, String dob, String gender, String address, String phone, String insuranceInfo) {
     for (Patient patient : patients) {
@@ -91,6 +101,10 @@ public class Patient extends Person {
     }
 
     return null;
+  }
+
+  public boolean hasWallet() {
+    return this.wallet != null;
   }
 
   public String getDob() {
