@@ -5,7 +5,9 @@
 package hospital;
 
 import hospital.pages.auth.Login;
+import hospital.pages.system.Dashboard;
 import hospital.program.Admin;
+import hospital.program.Session;
 
 /**
  *
@@ -18,10 +20,13 @@ public class HospitalOop {
      */
     public static void main(String[] args) {
         initData();
-        new Login();
+        // new Login();
+        new Dashboard();
     }
     
     private static void initData() {
-        Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
+        // Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
+        Admin admin = new Admin(1, "Satrio", "Asadel", "admin", "admin123");
+        Session.setCurrentUser(admin);
     }
 }
