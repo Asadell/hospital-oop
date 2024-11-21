@@ -191,7 +191,7 @@ public class AppointmentFrame extends BaseFrame {
       try {
         Patient selectedPatient = (Patient) patientComboBox.getSelectedItem();
         Doctor selectedDoctor = (Doctor) doctorComboBox.getSelectedItem();
-        LocalDateTime newDate = LocalDateTime.parse(appointmentDateField.getText() + "T00:00:00"); // Convert string to LocalDateTime
+        LocalDateTime newDate = LocalDateTime.parse(appointmentDateField.getText() + "T00:00:00");
         String newStatus = (String) statusComboBox.getSelectedItem();
 
         boolean updated = Appointment.updateAppointmentById(

@@ -189,12 +189,12 @@ public class InventoryFrame extends BaseFrame {
         Department selectedDepartment = (Department) departmentComboBox.getSelectedItem();
         int selectedAmount = quantity;
         try {
-            selectedAmount = Integer.parseInt(quantityField.getText()); // Mengonversi String ke int
+            selectedAmount = Integer.parseInt(quantityField.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid amount. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Keluar dari metode jika parsing gagal
+            return;
         }
-        LocalDateTime newDate = LocalDateTime.parse(expirationDateField.getText() + "T00:00:00"); // Convert string to LocalDateTime
+        LocalDateTime newDate = LocalDateTime.parse(expirationDateField.getText() + "T00:00:00");
         String newNameItem = (String) nameField.getText();
 
         boolean updated = Inventory.updateInventoryById(

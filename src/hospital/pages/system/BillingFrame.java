@@ -105,12 +105,12 @@ public class BillingFrame extends BaseFrame {
         Patient selectedPatient = (Patient) patientComboBox.getSelectedItem();
         double selectedAmount = amount;
         try {
-            selectedAmount = Double.parseDouble(amountField.getText()); // Mengonversi String ke int
+            selectedAmount = Double.parseDouble(amountField.getText()); 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid amount. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Keluar dari metode jika parsing gagal
+            return; 
         }
-        LocalDateTime newDate = LocalDateTime.parse(appointmentDateField.getText() + "T00:00:00"); // Convert string to LocalDateTime
+        LocalDateTime newDate = LocalDateTime.parse(appointmentDateField.getText() + "T00:00:00"); 
         String newStatus = (String) statusComboBox.getSelectedItem();
 
         boolean updated = Billing.updateBillingById(

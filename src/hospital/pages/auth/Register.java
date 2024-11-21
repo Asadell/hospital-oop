@@ -37,20 +37,17 @@ public class Register extends BaseFrame {
 
     @Override
     protected void setupContent() {
-        // Panel utama dengan background putih
         JPanel formPanel = new JPanel();
         formPanel.setLayout(null);
         formPanel.setBackground(Color.WHITE);
         formPanel.setBounds(200, 150, 880, 400);
 
-        // Title label
         titleLabel = new JLabel("Login to Hospital Management");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBounds(200, 20, 480, 50);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(titleLabel);
 
-        // First Name Label dan TextField
         JLabel firstNameLabel = new JLabel("First Name:");
         firstNameLabel.setBounds(220, 100, 100, 30);
         formPanel.add(firstNameLabel);
@@ -60,7 +57,6 @@ public class Register extends BaseFrame {
         firstNameField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         formPanel.add(firstNameField);
 
-        // First Name Label dan TextField
         JLabel lastNameLabel = new JLabel("Last Name:");
         lastNameLabel.setBounds(220, 140, 100, 30);
         formPanel.add(lastNameLabel);
@@ -70,7 +66,6 @@ public class Register extends BaseFrame {
         lastNameField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         formPanel.add(lastNameField);
 
-        // Username Label dan TextField
         JLabel usernameLabel = new JLabel("Username:");
         usernameLabel.setBounds(220, 180, 100, 30);
         formPanel.add(usernameLabel);
@@ -80,7 +75,6 @@ public class Register extends BaseFrame {
         usernameField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         formPanel.add(usernameField);
 
-        // Password Label dan PasswordField
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(220, 220, 100, 30);
         formPanel.add(passwordLabel);
@@ -116,7 +110,6 @@ public class Register extends BaseFrame {
         });
         formPanel.add(registerButton);
 
-        // Login Button
         loginButton = new JButton("Login");
         loginButton.setBounds(320, 320, 250, 40);  
         loginButton.setBackground(new Color(0, 102, 204)); 

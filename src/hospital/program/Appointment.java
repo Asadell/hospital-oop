@@ -54,10 +54,10 @@ public class Appointment { // Implementation
         appointment.setDoctor(doctor);
         appointment.setSchedule(appointmentDate);
         appointment.setStatus(status);
-        return true; // Appointment updated successfully
+        return true;
       }
     }
-    return false; // Appointment not found
+    return false;
   }
   
   public static int getLastId() {

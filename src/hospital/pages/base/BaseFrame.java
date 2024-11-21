@@ -22,7 +22,6 @@ import hospital.util.ColorPalette;
 public abstract class BaseFrame extends JFrame {
     private boolean isDashboard;
     protected ColorPalette color = new ColorPalette();
-    // protected JPanel sidebar = new JPanel();
     protected JPanel header = new JPanel();
     protected JPanel backgroundContent = new JPanel();
     protected JPanel content = new JPanel();
@@ -34,7 +33,6 @@ public abstract class BaseFrame extends JFrame {
         setSize(1280, 720);
         setLocationRelativeTo(null);
         setLayout(null);
-//        setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         initLayout();

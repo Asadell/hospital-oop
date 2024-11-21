@@ -55,10 +55,10 @@ public class Billing {
         billing.setAmount(amount);
         billing.setBillingDate(billingDate);
         billing.setPaymentStatus(paymentStatus);
-        return true; // Billing updated successfully
+        return true;
       }
     }
-    return false; // Billing not found
+    return false;
   }
 
   public void generateBill() {

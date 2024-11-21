@@ -55,10 +55,10 @@ public class Inventory {
         inventory.setQuantity(quantity);
         inventory.setExpirationDate(expirationDate);
         inventory.setDepartment(department);
-        return true; // Inventory updated successfully
+        return true;
       }
     }
-    return false; // Inventory not found
+    return false;
   }
 
   public static boolean deleteInventoryById(int id) {

@@ -29,20 +29,17 @@ public class Login extends BaseFrame {
 
     @Override
     protected void setupContent() {
-        // Panel utama dengan background putih
         JPanel formPanel = new JPanel();
         formPanel.setLayout(null);
         formPanel.setBackground(Color.WHITE);
         formPanel.setBounds(200, 150, 880, 400);
 
-        // Title label
         titleLabel = new JLabel("Login to Hospital Management");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setBounds(200, 20, 480, 50);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         formPanel.add(titleLabel);
 
-        // Username Label dan TextField
         JLabel usernameLabel = new JLabel("Username:");
         usernameLabel.setBounds(220, 100, 100, 30);
         formPanel.add(usernameLabel);
@@ -52,7 +49,6 @@ public class Login extends BaseFrame {
         usernameField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         formPanel.add(usernameField);
 
-        // Password Label dan PasswordField
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setBounds(220, 150, 100, 30);
         formPanel.add(passwordLabel);
@@ -62,7 +58,6 @@ public class Login extends BaseFrame {
         passwordField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         formPanel.add(passwordField);
 
-        // Login Button
         loginButton = new JButton("Login");
         loginButton.setBounds(320, 200, 250, 40);
         loginButton.setBackground(new Color(0, 102, 204));
@@ -104,7 +99,6 @@ public class Login extends BaseFrame {
         });
         formPanel.add(registerButton);
 
-        // Menambahkan form panel ke konten utama
         content.add(formPanel);
         content.setBackground(new Color(74, 73, 172));
         // content.setBackground(new Color(34, 34, 34));
