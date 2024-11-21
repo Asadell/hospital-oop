@@ -19,7 +19,6 @@ public class Appointment { // Implementation
   private LocalDateTime appointmentDate;
   private String status;
   private static int lastId = 1;
-
   private static List<Appointment> appointments = new ArrayList<>();
 
   public Appointment(int appointmentId, Patient patient, Doctor doctor, LocalDateTime appointmentDate, String status) {
@@ -28,6 +27,9 @@ public class Appointment { // Implementation
     this.doctor = doctor;
     this.appointmentDate = appointmentDate;
     this.status = status;
+
+    LocalDateTime billingDate = LocalDateTime.of(2024, 11, 21, 14, 30);
+    Billing.addBilling(patient, 0, billingDate, "Unpaid");
   }
 
   public static void addAppointment(Appointment appointment) {

@@ -39,6 +39,7 @@ public class AppointmentFrame extends BaseFrame {
   private int index = 1;
   private JTable table;
   private DefaultTableModel tableModel;
+  
   public AppointmentFrame() {
     super("Appointment", true);
     setupContent();
@@ -67,9 +68,8 @@ public class AppointmentFrame extends BaseFrame {
 
     table.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
     table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JButton("Edit"), "edit"));
-    // table.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
-    // table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JButton("Delete"), "delete"));
 
+    
     JScrollPane scrollPane = new JScrollPane(table);
     scrollPane.setBounds(40, 113, 820, 415);
     content.add(scrollPane);
@@ -104,121 +104,117 @@ public class AppointmentFrame extends BaseFrame {
   }
 
   private void addAppointment() {
-        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+    JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
 
-        List<Patient> patients = Patient.getPatients();
-        List<Doctor> doctors = Doctor.getDoctors();
+    List<Patient> patients = Patient.getPatients();
+    List<Doctor> doctors = Doctor.getDoctors();
 
-        JComboBox<Patient> patientComboBox = new JComboBox<>(patients.toArray(new Patient[3]));
-        JComboBox<Doctor> doctorComboBox = new JComboBox<>(doctors.toArray(new Doctor[0]));
+    JComboBox<Patient> patientComboBox = new JComboBox<>(patients.toArray(new Patient[3]));
+    JComboBox<Doctor> doctorComboBox = new JComboBox<>(doctors.toArray(new Doctor[0]));
 
-        JTextField dateField = new JTextField("YYYY-MM-DD");
+    JTextField dateField = new JTextField("YYYY-MM-DD");
 
-        String[] statuses = {"Scheduled", "Completed", "Canceled"};
-        JComboBox<String> statusComboBox = new JComboBox<>(statuses);
+    String[] statuses = {"Scheduled", "Completed", "Canceled"};
+    JComboBox<String> statusComboBox = new JComboBox<>(statuses);
 
-        panel.add(new JLabel("Patient:"));
-        panel.add(patientComboBox);
-        panel.add(new JLabel("Doctor:"));
-        panel.add(doctorComboBox);
-        panel.add(new JLabel("Date (YYYY-MM-DD):"));
-        panel.add(dateField);
-        panel.add(new JLabel("Status:"));
-        panel.add(statusComboBox);
+    panel.add(new JLabel("Patient:"));
+    panel.add(patientComboBox);
+    panel.add(new JLabel("Doctor:"));
+    panel.add(doctorComboBox);
+    panel.add(new JLabel("Date (YYYY-MM-DD):"));
+    panel.add(dateField);
+    panel.add(new JLabel("Status:"));
+    panel.add(statusComboBox);
 
-        int result = JOptionPane.showConfirmDialog(this, panel, "Add Appointment", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+    int result = JOptionPane.showConfirmDialog(this, panel, "Add Appointment", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-        if (result == JOptionPane.OK_OPTION) {
-            try {
-                Patient selectedPatient = (Patient) patientComboBox.getSelectedItem();
-                Doctor selectedDoctor = (Doctor) doctorComboBox.getSelectedItem();
-                LocalDate appointmentDate = LocalDate.parse(dateField.getText().trim());
-                String status = (String) statusComboBox.getSelectedItem();
+    if (result == JOptionPane.OK_OPTION) {
+      try {
+        Patient selectedPatient = (Patient) patientComboBox.getSelectedItem();
+        Doctor selectedDoctor = (Doctor) doctorComboBox.getSelectedItem();
+        LocalDate appointmentDate = LocalDate.parse(dateField.getText().trim());
+        String status = (String) statusComboBox.getSelectedItem();
 
-                if (selectedPatient == null || selectedDoctor == null || status == null) {
-                    throw new IllegalArgumentException("All fields are required.");
-                }
-
-                LocalDateTime dateTime = appointmentDate.atStartOfDay();
-                Appointment appointment = new Appointment(Appointment.getLastId(), selectedPatient, selectedDoctor, dateTime, status);
-                Appointment.addAppointment(appointment);
-
-                tableModel.addRow(new Object[]{appointment.getAppointmentId(), selectedPatient.getFirstName(),
-                        selectedDoctor.getFirstName(), dateTime, status});
-
-                JOptionPane.showMessageDialog(this, "Appointment added successfully!");
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        if (selectedPatient == null || selectedDoctor == null || status == null) {
+          throw new IllegalArgumentException("All fields are required.");
         }
-    }
 
-    private void editAppointment(int row) {
-      // Retrieve existing appointment details
-      int appointmentId = (int) tableModel.getValueAt(row, 6);
-      int patientId = (int) tableModel.getValueAt(row, 7); // Assuming the patient is stored in the 2nd column
-      int doctorId = (int) tableModel.getValueAt(row, 8);   // Assuming the doctor is stored in the 3rd column
-      LocalDateTime appointmentDate = (LocalDateTime) tableModel.getValueAt(row, 3); // Assuming date in the 4th column
-      String status = (String) tableModel.getValueAt(row, 4); // Assuming status is in the 5th column
+        LocalDateTime dateTime = appointmentDate.atStartOfDay();
+        Appointment appointment = new Appointment(Appointment.getLastId(), selectedPatient, selectedDoctor, dateTime, status);
+        Appointment.addAppointment(appointment);
 
-      Patient patient = Patient.getPatientById(patientId);
-      Doctor doctor = Doctor.getDoctorById(doctorId);
-  
-      // Create input fields pre-filled with current values
-      JComboBox<Patient> patientComboBox = new JComboBox<>(Patient.getPatients().toArray(new Patient[0]));
-      patientComboBox.setSelectedItem(patient); // Pre-select the current patient
-  
-      JComboBox<Doctor> doctorComboBox = new JComboBox<>(Doctor.getDoctors().toArray(new Doctor[0]));
-      doctorComboBox.setSelectedItem(doctor); // Pre-select the current doctor
-  
-      JTextField appointmentDateField = new JTextField(appointmentDate.toLocalDate().toString()); // Format date to string
-      JTextField statusField = new JTextField(status);
-  
-      Object[] message = {
-          "Patient:", patientComboBox,
-          "Doctor:", doctorComboBox,
-          "Appointment Date (YYYY-MM-DD):", appointmentDateField,
-          "Status:", statusField,
-      };
-  
-      int option = JOptionPane.showConfirmDialog(
-          this, 
-          message, 
-          "Edit Appointment", 
-          JOptionPane.OK_CANCEL_OPTION
-      );
-  
-      if (option == JOptionPane.OK_OPTION) {
-          try {
-              // Retrieve edited values
-              Patient selectedPatient = (Patient) patientComboBox.getSelectedItem();
-              Doctor selectedDoctor = (Doctor) doctorComboBox.getSelectedItem();
-              LocalDateTime newDate = LocalDateTime.parse(appointmentDateField.getText() + "T00:00:00"); // Convert string to LocalDateTime
-              String newStatus = statusField.getText();
-  
-              // Update the appointment using the provided data
-              boolean updated = Appointment.updateAppointmentById(
-                  appointmentId,
-                  selectedPatient,
-                  selectedDoctor,
-                  newDate,
-                  newStatus
-              );
-  
-              if (updated) {
-                  JOptionPane.showMessageDialog(this, "Appointment updated successfully!");
-                  loadTableData(); // Refresh the table with updated data
-              } else {
-                  JOptionPane.showMessageDialog(this, "Failed to update the appointment.");
-              }
-          } catch (Exception e) {
-              JOptionPane.showMessageDialog(this, "Invalid input. Please check the fields and try again.", "Error", JOptionPane.ERROR_MESSAGE);
-          }
+        tableModel.addRow(new Object[]{appointment.getAppointmentId(), selectedPatient.getFirstName(), selectedDoctor.getFirstName(), dateTime, status});
+
+        JOptionPane.showMessageDialog(this, "Appointment added successfully!");
+      } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
+    }
+  }
+
+  private void editAppointment(int row) {
+    int appointmentId = (int) tableModel.getValueAt(row, 6);
+    int patientId = (int) tableModel.getValueAt(row, 7);
+    int doctorId = (int) tableModel.getValueAt(row, 8);  
+    LocalDateTime appointmentDate = (LocalDateTime) tableModel.getValueAt(row, 3);
+    String status = (String) tableModel.getValueAt(row, 4);
+
+    Patient patient = Patient.getPatientById(patientId);
+    Doctor doctor = Doctor.getDoctorById(doctorId);
+
+    JComboBox<Patient> patientComboBox = new JComboBox<>(Patient.getPatients().toArray(new Patient[0]));
+    patientComboBox.setSelectedItem(patient);
+
+    JComboBox<Doctor> doctorComboBox = new JComboBox<>(Doctor.getDoctors().toArray(new Doctor[0]));
+    doctorComboBox.setSelectedItem(doctor);
+
+    JTextField appointmentDateField = new JTextField(appointmentDate.toLocalDate().toString());
+
+    String[] statuses = {"Scheduled", "Completed", "Canceled"};
+    JComboBox<String> statusComboBox = new JComboBox<>(statuses);
+    statusComboBox.setSelectedItem(status);
+
+    Object[] message = {
+      "Patient:", patientComboBox,
+      "Doctor:", doctorComboBox,
+      "Appointment Date (YYYY-MM-DD):", appointmentDateField,
+      "Status:", statusComboBox,
+    };
+
+    int option = JOptionPane.showConfirmDialog(
+      this, 
+      message, 
+      "Edit Appointment", 
+      JOptionPane.OK_CANCEL_OPTION
+    );
+
+    if (option == JOptionPane.OK_OPTION) {
+      try {
+        Patient selectedPatient = (Patient) patientComboBox.getSelectedItem();
+        Doctor selectedDoctor = (Doctor) doctorComboBox.getSelectedItem();
+        LocalDateTime newDate = LocalDateTime.parse(appointmentDateField.getText() + "T00:00:00"); // Convert string to LocalDateTime
+        String newStatus = (String) statusComboBox.getSelectedItem();
+
+        boolean updated = Appointment.updateAppointmentById(
+          appointmentId,
+          selectedPatient,
+          selectedDoctor,
+          newDate,
+          newStatus
+        );
+
+        if (updated) {
+          JOptionPane.showMessageDialog(this, "Appointment updated successfully!");
+          loadTableData();
+        } else {
+          JOptionPane.showMessageDialog(this, "Failed to update the appointment.");
+        }
+      } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Invalid input. Please check the fields and try again.", "Error", JOptionPane.ERROR_MESSAGE);
+      }
+    }
   }
   
-  
-
   private class ButtonRenderer extends JButton implements TableCellRenderer {
     public ButtonRenderer() {
       setOpaque(true);
@@ -262,5 +258,4 @@ public class AppointmentFrame extends BaseFrame {
       fireEditingStopped();
     }
   }
-
 }

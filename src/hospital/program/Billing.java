@@ -4,6 +4,10 @@
  */
 package hospital.program;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author LENOVO
@@ -12,15 +16,49 @@ public class Billing {
   private int billingId;
   private Patient patient; // Assosiation
   private double amount;
-  private String billingDate;
+  private LocalDateTime billingDate;
   private String paymentStatus;
+  private static int lastId = 1;
+  private static List<Billing> billings = new ArrayList<>();
 
-  public Billing(int billingId, Patient patient, double amount, String billingDate, String paymentStatus) {
+  public Billing(int billingId, Patient patient, double amount, LocalDateTime billingDate, String paymentStatus) {
     this.billingId = billingId;
     this.patient = patient;
     this.amount = amount;
     this.billingDate = billingDate;
     this.paymentStatus = paymentStatus;
+  }
+
+  private static void addBilling(Billing billing) {
+    if (billing != null) {
+      billings.add(billing);
+      System.out.println("Billing added successfully!");
+    } else {
+      System.out.println("Billing cannot be null!");
+    }
+  }
+
+  public static void addBilling(Patient patient, double amount, LocalDateTime billingDate, String paymentStatus) {
+    int id = lastId++;
+    Billing billing = new Billing(id, patient, amount, billingDate, paymentStatus);
+    addBilling(billing);
+  }
+
+  public static List<Billing> getBillings() {
+    return billings;
+  }
+
+  public static boolean updateBillingById(int billingId, Patient patient, double amount, LocalDateTime billingDate, String paymentStatus) {
+    for (Billing billing : billings) {
+      if (billing.getBillingId() == billingId) {
+        billing.setPatient(patient);
+        billing.setAmount(amount);
+        billing.setBillingDate(billingDate);
+        billing.setPaymentStatus(paymentStatus);
+        return true; // Billing updated successfully
+      }
+    }
+    return false; // Billing not found
   }
 
   public void generateBill() {
@@ -45,10 +83,10 @@ public class Billing {
   public void setAmount(double amount) {
     this.amount = amount;
   }
-  public String getBillingDate() {
+  public LocalDateTime getBillingDate() {
     return billingDate;
   }
-  public void setBillingDate(String billingDate) {
+  public void setBillingDate(LocalDateTime billingDate) {
     this.billingDate = billingDate;
   }
   public String getPaymentStatus() {
