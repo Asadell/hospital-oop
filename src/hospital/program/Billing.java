@@ -23,7 +23,7 @@ public class Billing {
 
   public Billing(int billingId, Patient patient, double amount, LocalDateTime billingDate, String paymentStatus) {
     this.billingId = billingId;
-    this.patient = patient;
+    this.patient = patient; // Assosiation
     this.amount = amount;
     this.billingDate = billingDate;
     this.paymentStatus = paymentStatus;

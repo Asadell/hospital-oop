@@ -17,7 +17,7 @@ public class Inventory {
   private String itemName;
   private int quantity;
   private LocalDateTime expirationDate;
-  private Department department;
+  private Department department; // Composition
   private static int lastId = 1;
 
   public static int getLastId() {
@@ -30,7 +30,7 @@ public class Inventory {
     this.itemName = itemName;
     this.quantity = quantity;
     this.expirationDate = expirationDate;
-    this.department = department;
+    this.department = department; // Composition
   }
 
   public static void addInventory(Inventory inventory) {

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author LENOVO
  */
-public class Admin extends Person {
+public class Admin extends Person { // Inheritance
     private String username;
     private String password;
     private static List<Admin> admins = new ArrayList<>();

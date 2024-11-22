@@ -12,7 +12,7 @@ public class Session {
   private static int currentUserId;
   private static String currentUserName;
 
-  public static void setCurrentUser(Admin admin) {
+  public static void setCurrentUser(Admin admin) { // Dependency
     if (admin != null) {
       currentUserId = admin.getId();
       currentUserName = admin.getFirstName();

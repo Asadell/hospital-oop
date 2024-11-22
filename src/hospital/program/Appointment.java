@@ -23,8 +23,8 @@ public class Appointment implements Schedulable { // Implementation
 
   public Appointment(int appointmentId, Patient patient, Doctor doctor, LocalDateTime appointmentDate, String status) {
     this.appointmentId = appointmentId;
-    this.patient = patient;
-    this.doctor = doctor;
+    this.patient = patient; // Association
+    this.doctor = doctor;   // Association
     this.appointmentDate = appointmentDate;
     this.status = status;
 

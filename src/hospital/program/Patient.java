@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author LENOVO
  */
-public class Patient extends Person {
+public class Patient extends Person { // Inheritance
   private String dob;
   private String gender;
   private String address;

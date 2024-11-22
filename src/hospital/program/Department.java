@@ -22,7 +22,7 @@ public class Department {
   public Department(int departmentId, String name, Doctor headDoctor) {
     this.departmentId = departmentId;
     this.name = name;
-    this.headDoctor = headDoctor;
+    this.headDoctor = headDoctor; // Composition
     this.doctors = new ArrayList<>();
   }
 
