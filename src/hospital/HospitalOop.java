@@ -7,14 +7,14 @@ package hospital;
 import java.time.LocalDateTime;
 
 import hospital.pages.auth.Login;
-import hospital.pages.system.DashboardFrame;
+// import hospital.pages.system.DashboardFrame;
 import hospital.program.Admin;
 import hospital.program.Appointment;
 import hospital.program.Department;
 import hospital.program.Doctor;
 import hospital.program.Inventory;
 import hospital.program.Patient;
-import hospital.program.Session;
+// import hospital.program.Session;
 
 /**
  *
@@ -27,12 +27,12 @@ public class HospitalOop {
      */
     public static void main(String[] args) {
         initData();
-         new Login();
+        new Login();
 //        new DashboardFrame();
     }
     
     private static void initData() {
-         Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
+        Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
         Patient.addPatient("John", "Doe", "1990-01-01", "Male", "123 Main St", "555-1234", "XYZ Insurance");
         Patient.addPatient("Jane", "Smith", "1992-02-02", "Female", "456 Elm St", "555-5678", "ABC Insurance");
         Patient.addPatient("Michael", "Brown", "1988-03-03", "Male", "789 Pine St", "555-8765", "DEF Insurance");
