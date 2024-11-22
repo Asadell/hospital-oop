@@ -27,12 +27,12 @@ public class HospitalOop {
      */
     public static void main(String[] args) {
         initData();
-        // new Login();
-        new DashboardFrame();
+         new Login();
+//        new DashboardFrame();
     }
     
     private static void initData() {
-        // Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
+         Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
         Patient.addPatient("John", "Doe", "1990-01-01", "Male", "123 Main St", "555-1234", "XYZ Insurance");
         Patient.addPatient("Jane", "Smith", "1992-02-02", "Female", "456 Elm St", "555-5678", "ABC Insurance");
         Patient.addPatient("Michael", "Brown", "1988-03-03", "Male", "789 Pine St", "555-8765", "DEF Insurance");
@@ -113,7 +113,7 @@ public class HospitalOop {
         Inventory.addInventory("MRI Contrast Dye", 20, LocalDateTime.of(2025, 2, 1, 0, 0), department4);
         Inventory.addInventory("Defibrillator Pads", 40, LocalDateTime.of(2026, 4, 30, 0, 0), department5);
 
-        Admin admin = new Admin(1, "Satrio", "Asadel", "admin", "admin123");
-        Session.setCurrentUser(admin);
+//        Admin admin = new Admin(1, "Satrio", "Asadel", "admin", "admin123");
+//        Session.setCurrentUser(admin);
     }
 }

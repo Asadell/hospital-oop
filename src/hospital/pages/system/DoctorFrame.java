@@ -27,8 +27,8 @@ import javax.swing.table.TableCellRenderer;
 
 import hospital.pages.base.BaseFrame;
 import hospital.program.Doctor;
-import hospital.program.Doctor;
-import hospital.program.Doctor;
+// import hospital.program.Doctor;
+// import hospital.program.Doctor;
 
 /**
  *

@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import hospital.pages.base.BaseFrame;
-import hospital.program.Department;
+// import hospital.program.Department;
 import hospital.program.Patient;
 
 /**

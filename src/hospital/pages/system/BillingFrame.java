@@ -24,9 +24,9 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import hospital.pages.base.BaseFrame;
-import hospital.program.Appointment;
+// import hospital.program.Appointment;
 import hospital.program.Billing;
-import hospital.program.Doctor;
+// import hospital.program.Doctor;
 import hospital.program.Patient;
 
 /**
@@ -137,7 +137,7 @@ public class BillingFrame extends BaseFrame {
     tableModel.setRowCount(0);
     List<Billing> billings = Billing.getBillings();
     for (Billing billing : billings) {
-      Patient patient = billing.getPatient();
+      // Patient patient = billing.getPatient();
       Object[] rowData = {
         index++,
         billing.getPatient().toString(),

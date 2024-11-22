@@ -27,11 +27,11 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import hospital.pages.base.BaseFrame;
-import hospital.program.Billing;
+// import hospital.program.Billing;
 import hospital.program.Department;
-import hospital.program.Doctor;
+// import hospital.program.Doctor;
 import hospital.program.Inventory;
-import hospital.program.Patient;
+// import hospital.program.Patient;
 
 /**
  *
@@ -153,12 +153,12 @@ public class InventoryFrame extends BaseFrame {
   }
 
   private void editInventory(int row) {
-    int inventoryId = (int) tableModel.getValueAt(row, 7);
+    // int inventoryId = (int) tableModel.getValueAt(row, 7);
     int departmentId = (int) tableModel.getValueAt(row, 8);
     String itemName = (String) tableModel.getValueAt(row, 1);
     int quantity = (int) tableModel.getValueAt(row, 2); 
     LocalDateTime expirationDate = (LocalDateTime) tableModel.getValueAt(row, 3);
-    String status = (String) tableModel.getValueAt(row, 4);
+    // String status = (String) tableModel.getValueAt(row, 4);
 
     Department department = Department.getDepartmentById(departmentId);
 
@@ -201,7 +201,7 @@ public class InventoryFrame extends BaseFrame {
           departmentId,
           newNameItem,
           selectedAmount,
-          expirationDate,
+          newDate,
           selectedDepartment
         );
 

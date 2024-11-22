@@ -78,8 +78,8 @@ public class AppointmentFrame extends BaseFrame {
     tableModel.setRowCount(0);
     List<Appointment> appointments = Appointment.getAppointments();
     for (Appointment appointment : appointments) {
-      Patient patient = appointment.getPatient();
-      Doctor doctor = appointment.getDoctor();
+      // Patient patient = appointment.getPatient();
+      // Doctor doctor = appointment.getDoctor();
       Object[] rowData = {
         index++,
         appointment.getPatient().toString(),
