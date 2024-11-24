@@ -10,6 +10,7 @@ import hospital.pages.base.BaseFrame;
 import hospital.pages.system.DashboardFrame;
 import hospital.program.Admin;
 import hospital.program.Session;
+import hospital.util.ColorPalette;
 
 /**
  *
@@ -60,48 +61,52 @@ public class Login extends BaseFrame {
 
         loginButton = new JButton("Login");
         loginButton.setBounds(320, 200, 250, 40);
-        loginButton.setBackground(new Color(0, 102, 204));
+        loginButton.setBackground(ColorPalette.RED);
         loginButton.setForeground(Color.WHITE);
         loginButton.setFont(new Font("Arial", Font.BOLD, 16));
         loginButton.setFocusPainted(false);
-        loginButton.addActionListener(e -> {
-            String username = usernameField.getText();
-            String password = new String(passwordField.getPassword());
-            System.out.printf("%s = %s", username, password);
-
-            if (username.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Fields cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            Admin loggedAdmin = Admin.login(username, password);
-            
-            if (loggedAdmin != null) {
-                Session.setCurrentUser(loggedAdmin);
-                JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                new DashboardFrame();
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        loginButton.addActionListener(e -> handleLogin());
         formPanel.add(loginButton);
 
         registerButton = new JButton("Register");
         registerButton.setBounds(320, 260, 250, 40); 
-        registerButton.setBackground(new Color(255, 102, 102));
+        registerButton.setBackground(ColorPalette.BLUE);
         registerButton.setForeground(Color.WHITE); 
         registerButton.setFont(new Font("Arial", Font.BOLD, 16));
         registerButton.setFocusPainted(false); 
-        registerButton.addActionListener(e -> {
-            new Register();
-            dispose();
-        });
+        registerButton.addActionListener(e -> goToRegister());
         formPanel.add(registerButton);
 
         content.add(formPanel);
-        content.setBackground(new Color(74, 73, 172));
+        content.setBackground(ColorPalette.PRIMARY_PURPLE);
         // content.setBackground(new Color(34, 34, 34));
         // content.setBackground(new Color(75, 73, 172));
+    }
+
+    private void handleLogin() {
+        String username = usernameField.getText().trim();
+        String password = new String(passwordField.getPassword()).trim();
+        System.out.printf("%s = %s", username, password);
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Fields cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Admin loggedAdmin = Admin.login(username, password);
+        
+        if (loggedAdmin != null) {
+            Session.setCurrentUser(loggedAdmin);
+            JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            new DashboardFrame();
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void goToRegister() {
+        new Register();
+        dispose();
     }
 }

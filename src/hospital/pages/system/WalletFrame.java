@@ -26,8 +26,8 @@ import hospital.program.Patient;
  *
  * @author LENOVO
  */
-public class WalletFrame extends BaseFrame { 
-  private int index = 1;
+public class WalletFrame extends BaseFrame implements TableHandler { 
+  private int index;
   private JTable table;
   private DefaultTableModel tableModel;
 
@@ -38,18 +38,19 @@ public class WalletFrame extends BaseFrame {
   }
 
   protected void setupContent() {
-    JLabel title = new JLabel("Dashboard Panel");
+    JLabel title = new JLabel("Wallet Panel");
     title.setFont(new Font("Arial", Font.BOLD, 24));
     title.setBounds(20, 20, 200, 30);
     content.add(title);
 
     JButton addButton = new JButton("Add Wallet");
     addButton.setBounds(740, 60, 120, 30);
+    addButton.setFocusPainted(false);
     addButton.addActionListener(e -> addWallet());
     content.add(addButton);
 
     // String[] columnNames = {"ID", "Full Name", "Balance", "Edit", "Delete", ""};
-    String[] columnNames = {"ID", "Full Name", "Balance"};
+    String[] columnNames = {"NO", "Full Name", "Balance"};
     tableModel = new DefaultTableModel(columnNames, 0) {
       @Override
       public boolean isCellEditable(int row, int column) {
@@ -67,6 +68,25 @@ public class WalletFrame extends BaseFrame {
     JScrollPane scrollPane = new JScrollPane(table);
     scrollPane.setBounds(40, 113, 820, 415);
     content.add(scrollPane);
+  }
+
+  public void loadTableData() {
+    tableModel.setRowCount(0);
+    List<Patient> patients = Patient.getPatientsWithWallet();
+    index = 1;
+    for (Patient patient : patients) {
+      Object[] rowData = {
+        index++,
+        patient.getFirstName() + " " + patient.getLastName(),
+        patient.getWallet().getBalance(),
+        // "Edit",
+        // "Delete",
+        // patient.getId(),
+      };
+      tableModel.addRow(rowData);
+      // table.getColumnModel().getColumn(5).setMinWidth(0);
+      // table.getColumnModel().getColumn(5).setMaxWidth(0);
+    }
   }
 
   private void addWallet() {
@@ -93,10 +113,15 @@ public class WalletFrame extends BaseFrame {
             throw new IllegalArgumentException("All fields are required.");
         }
 
+        if(newBalance < 10_000) {
+          throw new IllegalArgumentException("Balance cannot be less than Rp 10.000");
+        }
+
         if (!patient.hasWallet()) patient.createWallet();
         patient.getWallet().addBalance(newBalance);
         tableModel.addRow(new Object[]{index++, patient.getFirstName() + " " + patient.getLastName(), patient.getWallet().getBalance(), "Edit", "Delete"});
 
+        loadTableData();
         JOptionPane.showMessageDialog(this, "Wallet added successfully!");
       } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(this, "Invalid ID format. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -105,24 +130,6 @@ public class WalletFrame extends BaseFrame {
       } catch (Exception ex) {
           JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
-    }
-  }
-
-  private void loadTableData() {
-    tableModel.setRowCount(0);
-    List<Patient> patients = Patient.getPatientsWithWallet();
-    for (Patient patient : patients) {
-      Object[] rowData = {
-        index++,
-        patient.getFirstName() + " " + patient.getLastName(),
-        patient.getWallet().getBalance(),
-        // "Edit",
-        // "Delete",
-        // patient.getId(),
-      };
-      tableModel.addRow(rowData);
-      // table.getColumnModel().getColumn(5).setMinWidth(0);
-      // table.getColumnModel().getColumn(5).setMaxWidth(0);
     }
   }
 }

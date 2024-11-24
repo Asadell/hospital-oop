@@ -20,6 +20,8 @@ public class Patient extends Person { // Inheritance
   private Wallet wallet; // Aggregation
   private static List<Patient> patients = new ArrayList<>();
 
+  public Patient() {}
+
   public Patient(int id, String firstName, String lastName, String dob, String gender, String address, String phone, String insuranceInfo) {
     super(id, firstName, lastName);
     this.dob = dob;
@@ -101,6 +103,16 @@ public class Patient extends Person { // Inheritance
     }
 
     return null;
+  }
+
+  public static boolean isPhoneNumberUsed(String phoneNumber) {
+    for (Patient patient : patients) {
+      if (patient.getPhone().equals(phoneNumber)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public boolean hasWallet() {

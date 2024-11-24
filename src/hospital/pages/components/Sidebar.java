@@ -21,7 +21,7 @@ import java.awt.event.*;
  */
 public class Sidebar extends JPanel {
     
-    private ColorPalette color = new ColorPalette();
+    private ColorPalette color = new ColorPalette(); // Composition
     
     public Sidebar() {
         setBackground(color.WHITE);

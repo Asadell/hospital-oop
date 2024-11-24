@@ -37,8 +37,8 @@ import hospital.program.Inventory;
  *
  * @author LENOVO
  */
-public class InventoryFrame extends BaseFrame {
-  private int index = 1;
+public class InventoryFrame extends BaseFrame implements TableHandler {
+  private int index;
   private JTable table;
   private DefaultTableModel tableModel;
 
@@ -56,10 +56,11 @@ public class InventoryFrame extends BaseFrame {
 
     JButton addButton = new JButton("Add Inventory");
     addButton.setBounds(740, 60, 120, 30);
+    addButton.setFocusPainted(false);
     addButton.addActionListener(e -> addInventory());
     content.add(addButton);
 
-    String[] columnNames = {"ID", "Item Name", "Quantity", "Expiration Date", "Department", "Edit", "Delete", "", ""};
+    String[] columnNames = {"NO", "Item Name", "Quantity", "Expiration Date", "Department", "Edit", "Delete", "", ""};
     tableModel = new DefaultTableModel(columnNames, 0) {
       @Override
       public boolean isCellEditable(int row, int column) {
@@ -68,14 +69,43 @@ public class InventoryFrame extends BaseFrame {
     };
     table = new JTable(tableModel);
 
+    JButton editButton = new JButton("Edit");
+    editButton.setFocusPainted(false);
+    JButton deleteButton = new JButton("Delete");
+    deleteButton.setFocusPainted(false);
     table.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
-    table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JButton("Edit"), "edit"));
+    table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(editButton, "edit"));
     table.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
-    table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JButton("Delete"), "delete"));
+    table.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(deleteButton, "delete"));
 
     JScrollPane scrollPane = new JScrollPane(table);
     scrollPane.setBounds(40, 113, 820, 415);
     content.add(scrollPane);
+  }
+
+  public void loadTableData() {
+    index = 1;
+    tableModel.setRowCount(0);
+    List<Inventory> inventories = Inventory.getInventories();
+    for (Inventory inventory : inventories) {
+      Object[] rowData = {
+        index++,
+        inventory.getItemName(),
+        inventory.getQuantity(),
+        inventory.getExpirationDate(),
+        inventory.getDepartment().getName(),
+        "Edit",
+        "Delete",
+        inventory.getInventoryId(),
+        inventory.getDepartment().getDepartmentId(),
+      };
+      tableModel.addRow(rowData);
+
+      table.getColumnModel().getColumn(7).setMinWidth(0);
+      table.getColumnModel().getColumn(7).setMaxWidth(0);
+      table.getColumnModel().getColumn(8).setMinWidth(0);
+      table.getColumnModel().getColumn(8).setMaxWidth(0);
+    }
   }
 
   private void addInventory() {
@@ -117,7 +147,8 @@ public class InventoryFrame extends BaseFrame {
         Inventory.addInventory(inventory);
         tableModel.addRow(new Object[]{index++, name, quantity, dateTime, department, "Edit", "Delete"});
 
-        JOptionPane.showMessageDialog(this, "Doctor added successfully!");
+        loadTableData();
+        JOptionPane.showMessageDialog(this, "Inventory added successfully!");
       } catch (NumberFormatException ex) {
           JOptionPane.showMessageDialog(this, "Invalid ID format. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
       } catch (IllegalArgumentException ex) {
@@ -128,32 +159,8 @@ public class InventoryFrame extends BaseFrame {
     }
   }
 
-  private void loadTableData() {
-    tableModel.setRowCount(0);
-    List<Inventory> inventories = Inventory.getInventories();
-    for (Inventory inventory : inventories) {
-      Object[] rowData = {
-        index++,
-        inventory.getItemName(),
-        inventory.getQuantity(),
-        inventory.getExpirationDate(),
-        inventory.getDepartment().getName(),
-        "Edit",
-        "Delete",
-        inventory.getInventoryId(),
-        inventory.getDepartment().getDepartmentId(),
-      };
-      tableModel.addRow(rowData);
-
-      table.getColumnModel().getColumn(7).setMinWidth(0);
-      table.getColumnModel().getColumn(7).setMaxWidth(0);
-      table.getColumnModel().getColumn(8).setMinWidth(0);
-      table.getColumnModel().getColumn(8).setMaxWidth(0);
-    }
-  }
-
   private void editInventory(int row) {
-    // int inventoryId = (int) tableModel.getValueAt(row, 7);
+    int inventoryId = (int) tableModel.getValueAt(row, 7);
     int departmentId = (int) tableModel.getValueAt(row, 8);
     String itemName = (String) tableModel.getValueAt(row, 1);
     int quantity = (int) tableModel.getValueAt(row, 2); 
@@ -187,30 +194,41 @@ public class InventoryFrame extends BaseFrame {
       try {
         
         Department selectedDepartment = (Department) departmentComboBox.getSelectedItem();
-        int selectedAmount = quantity;
+        int selectedQuantity = quantity;
         try {
-            selectedAmount = Integer.parseInt(quantityField.getText());
+            selectedQuantity = Integer.parseInt(quantityField.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid amount. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         LocalDateTime newDate = LocalDateTime.parse(expirationDateField.getText() + "T00:00:00");
-        String newNameItem = (String) nameField.getText();
+        String newNameItem = (String) nameField.getText().trim();
+
+        if(selectedQuantity < 0) {
+          throw new IllegalArgumentException("Quantity cannot be less than zero");
+        }
+
+        if (newNameItem.isEmpty()) {
+          throw new IllegalArgumentException("All fields are required.");
+        }
+        if (checkInventoryName(newNameItem)) throw new Exception("Duplicate Inventory detected.");
 
         boolean updated = Inventory.updateInventoryById(
-          departmentId,
+          inventoryId,
           newNameItem,
-          selectedAmount,
+          selectedQuantity,
           newDate,
           selectedDepartment
         );
 
         if (updated) {
-          JOptionPane.showMessageDialog(this, "Inventory updated successfully!");
           loadTableData();
+          JOptionPane.showMessageDialog(this, "Inventory updated successfully!");
         } else {
           JOptionPane.showMessageDialog(this, "Failed to update the inventory.");
         }
+      } catch (IllegalArgumentException ex) {
+        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Invalid input. Please check the fields and try again.", "Error", JOptionPane.ERROR_MESSAGE);
       }
@@ -232,6 +250,7 @@ public class InventoryFrame extends BaseFrame {
 
       if (deleted) {
         tableModel.removeRow(row);
+        loadTableData();
 
         JOptionPane.showMessageDialog(this, "Inventory deleted successfully.");
       } else {
@@ -272,7 +291,7 @@ public class InventoryFrame extends BaseFrame {
 
     @Override
     public Object getCellEditorValue() {
-      return button.getText();
+      return button.getText().trim();
     }
 
     @Override
@@ -284,5 +303,9 @@ public class InventoryFrame extends BaseFrame {
       }
       fireEditingStopped();
     }
+  }
+
+  private boolean checkInventoryName(String inventoryName) {
+    return checkInventoryName(inventoryName);
   }
 }

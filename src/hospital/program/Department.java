@@ -14,15 +14,13 @@ import java.util.List;
 public class Department {
   private int departmentId;
   private String name;
-  private Doctor headDoctor = new Doctor(); // Composition
-  private List<Doctor> doctors; 
+  private List<Doctor> doctors; // Assosiation
   private static int lastId = 1;
   private static List<Department> departments = new ArrayList<>();
 
-  public Department(int departmentId, String name, Doctor headDoctor) {
+  public Department(int departmentId, String name) {
     this.departmentId = departmentId;
     this.name = name;
-    this.headDoctor = headDoctor; // Composition
     this.doctors = new ArrayList<>();
   }
 
@@ -35,17 +33,16 @@ public class Department {
     }
   }
 
-  public static void addDepartment(String name, Doctor headDoctor) {
+  public static void addDepartment(String name) {
     int id = lastId++;
-    Department Department = new Department(id, name, headDoctor);
+    Department Department = new Department(id, name);
     addDepartment(Department);
   }
 
-  public static boolean editDepartmentById(int id, String name, Doctor headDoctor) {
+  public static boolean editDepartmentById(int id, String name) {
     for (Department department : departments) {
       if (department.getDepartmentId() == id) {
         department.setName(name);
-        department.setHeadDoctor(headDoctor);
         System.out.println("Department with ID " + id + " updated successfully!");
         return true;
       }
@@ -74,6 +71,59 @@ public class Department {
     }
 
     return null;
+  }
+
+  public static Department getDepartmentByName(String name) {
+    for (Department department : departments) {
+      if (department.getName().equals(name)) {
+        return department;
+      }
+    }
+
+    return null;
+  }
+
+  public static Department findDepartmentByDoctorName(String doctorName) {
+    for (Department department : departments) {
+        for (Doctor doctor : department.doctors) {
+            if (doctor.getFirstName().equalsIgnoreCase(doctorName)) {
+                return department;
+            }
+        }
+    }
+    return null;
+  }
+
+  public static Department findDepartmentByDoctor(Doctor doctor) {
+    String doctorName = doctor.getFirstName();
+    for (Department department : departments) {
+        for (Doctor currDoctor : department.doctors) {
+            if (currDoctor.getFirstName().equalsIgnoreCase(doctorName)) {
+                return department;
+            }
+        }
+    }
+    return null;
+  }
+
+  public static void showAllDepartment() {
+    for (Department department : departments) {
+      System.out.println("Department: " + department.getName());
+        for (Doctor currDoctor : department.doctors) {
+          System.out.println(currDoctor.getFirstName());
+        }
+      System.out.println("hu\n");
+    }
+  }
+
+  public static boolean isDepartmentNameUsed(String departmentName) {
+    for (Department department : departments) {
+      if (department.getName().equals(departmentName)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public static int getLastId() {
@@ -110,14 +160,6 @@ public class Department {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public Doctor getHeadDoctor() {
-    return headDoctor;
-  }
-
-  public void setHeadDoctor(Doctor headDoctor) {
-    this.headDoctor = headDoctor;
   }
 
   public List<Doctor> getDoctors() {

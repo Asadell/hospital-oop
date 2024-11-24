@@ -22,6 +22,10 @@ public class Person {
         this.lastName = lastName;
     }
 
+    public static int getLastId() {
+        return lastId;
+    }
+
     public String toString() {
         return firstName + " " + lastName;
     }

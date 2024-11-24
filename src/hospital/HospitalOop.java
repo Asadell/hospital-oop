@@ -5,16 +5,16 @@
 package hospital;
 
 import java.time.LocalDateTime;
-
+    
 import hospital.pages.auth.Login;
-// import hospital.pages.system.DashboardFrame;
+ import hospital.pages.system.DashboardFrame;
 import hospital.program.Admin;
 import hospital.program.Appointment;
 import hospital.program.Department;
 import hospital.program.Doctor;
 import hospital.program.Inventory;
 import hospital.program.Patient;
-// import hospital.program.Session;
+ import hospital.program.Session;
 
 /**
  *
@@ -28,33 +28,47 @@ public class HospitalOop {
     public static void main(String[] args) {
         initData();
         new Login();
-//        new DashboardFrame();
+        // new DashboardFrame();
     }
     
     private static void initData() {
         Admin.register(1, "Satrio", "Asadel", "admin", "admin123");
-        Patient.addPatient("John", "Doe", "1990-01-01", "Male", "123 Main St", "555-1234", "XYZ Insurance");
-        Patient.addPatient("Jane", "Smith", "1992-02-02", "Female", "456 Elm St", "555-5678", "ABC Insurance");
-        Patient.addPatient("Michael", "Brown", "1988-03-03", "Male", "789 Pine St", "555-8765", "DEF Insurance");
-        Patient.addPatient("Emily", "Davis", "1995-04-04", "Female", "101 Maple St", "555-4321", "GHI Insurance");
-        Patient.addPatient("Chris", "Wilson", "1985-05-05", "Male", "202 Oak St", "555-6789", "JKL Insurance");
-        Patient.addPatient("Laura", "Johnson", "1991-06-06", "Female", "303 Birch St", "555-9876", "MNO Insurance");
-        Patient.addPatient("David", "Miller", "1980-07-07", "Male", "404 Cedar St", "555-3456", "PQR Insurance");
-        Patient.addPatient("Anna", "Anderson", "1998-08-08", "Female", "505 Spruce St", "555-6543", "STU Insurance");
-        Patient.addPatient("Robert", "Thomas", "1983-09-09", "Male", "606 Walnut St", "555-1111", "VWX Insurance");
-        Patient.addPatient("Sophia", "Martin", "1996-10-10", "Female", "707 Chestnut St", "555-2222", "YZA Insurance");
+        Patient.addPatient("John", "Doe", "1990-01-01", "Male", "123 Main St", "081234567890", "XYZ Insurance");
+        Patient.addPatient("Jane", "Smith", "1992-02-22", "Female", "456 Elm St", "082134567891", "ABC Insurance");
+        Patient.addPatient("Michael", "Brown", "1988-03-03", "Male", "789 Pine St", "083234567892", "DEF Insurance");
+        Patient.addPatient("Emily", "Davis", "1995-04-14", "Female", "101 Maple St", "084234567893", "GHI Insurance");
+        Patient.addPatient("Chris", "Wilson", "1985-05-05", "Male", "202 Oak St", "085234567894", "JKL Insurance");
+        Patient.addPatient("Laura", "Johnson", "1991-06-26", "Female", "303 Birch St", "086234567895", "MNO Insurance");
+        Patient.addPatient("David", "Miller", "1980-07-07", "Male", "404 Cedar St", "087234567896", "PQR Insurance");
+        Patient.addPatient("Anna", "Anderson", "1998-08-18", "Female", "505 Spruce St", "088234567897", "STU Insurance");
+        Patient.addPatient("Robert", "Thomas", "1983-09-09", "Male", "606 Walnut St", "089234567898", "VWX Insurance");
+        Patient.addPatient("Sophia", "Martin", "1996-10-10", "Female", "707 Chestnut St", "081234567899", "YZA Insurance");
+
+
+        Department.addDepartment("Cardiology");
+        Department.addDepartment("Neurology");
+        Department.addDepartment("Orthopedics");
+        Department.addDepartment("Pediatrics");
+        Department.addDepartment("Gastroenterology");
+
+        Department department1 = Department.getDepartmentById(1);
+        Department department2 = Department.getDepartmentById(2);
+        Department department3 = Department.getDepartmentById(3);
+        Department department4 = Department.getDepartmentById(4);
+        Department department5 = Department.getDepartmentById(5);
 
         LocalDateTime scheduleDate = LocalDateTime.of(2024, 11, 21, 14, 30);
-        Doctor.addDoctor("Ahmad", "Suryadi", "Cardiology", scheduleDate);
-        Doctor.addDoctor("Siti", "Nurhaliza", "Dermatology", scheduleDate);
-        Doctor.addDoctor("Budi", "Santoso", "Pediatrics", scheduleDate);
-        Doctor.addDoctor("Indah", "Pratiwi", "Gynecology", scheduleDate);
-        Doctor.addDoctor("Rizki", "Hakim", "Neurology", scheduleDate);
-        Doctor.addDoctor("Lestari", "Putri", "Orthopedics", scheduleDate);
-        Doctor.addDoctor("Dian", "Hartono", "Ophthalmology", scheduleDate);
-        Doctor.addDoctor("Agung", "Prasetyo", "Psychiatry", scheduleDate);
-        Doctor.addDoctor("Citra", "Wijaya", "General Practitioner", scheduleDate);
-        Doctor.addDoctor("Fajar", "Hidayat", "Pulmonology", scheduleDate);
+        Doctor.addDoctor("Ahmad", "Suryadi", "IDN-MD-2024-0001", department1);
+        Doctor.addDoctor("Siti", "Nurhaliza", "IDN-MD-2024-0002", department2);
+        Doctor.addDoctor("Budi", "Santoso", "IDN-MD-2024-0003", department3);
+        Doctor.addDoctor("Indah", "Pratiwi", "IDN-MD-2024-0004", department4);
+        Doctor.addDoctor("Rizki", "Hakim", "IDN-MD-2024-0005", department5);
+        Doctor.addDoctor("Lestari", "Putri", "IDN-MD-2024-0006", department1);
+        Doctor.addDoctor("Dian", "Hartono", "IDN-MD-2024-0007", department2);
+        Doctor.addDoctor("Agung", "Prasetyo", "IDN-MD-2024-0008", department3);
+        Doctor.addDoctor("Citra", "Wijaya", "IDN-MD-2024-0009", department4);
+        Doctor.addDoctor("Fajar", "Hidayat", "IDN-MD-2024-0010", department5);
+        
 
         Patient patient1 = Patient.getPatientById(1);
         Patient patient2 = Patient.getPatientById(2);
@@ -90,17 +104,16 @@ public class HospitalOop {
         Appointment.addAppointment(patient9, doctor19, appointmentDate, "Scheduled");
         Appointment.addAppointment(patient10, doctor20, appointmentDate, "Scheduled");
 
-        Department.addDepartment("Cardiology", doctor11);
-        Department.addDepartment("Neurology", doctor12);
-        Department.addDepartment("Orthopedics", doctor13);
-        Department.addDepartment("Pediatrics", doctor14);
-        Department.addDepartment("Gastroenterology", doctor15);
-
-        Department department1 = Department.getDepartmentById(1);
-        Department department2 = Department.getDepartmentById(2);
-        Department department3 = Department.getDepartmentById(3);
-        Department department4 = Department.getDepartmentById(4);
-        Department department5 = Department.getDepartmentById(5);
+        // department2.addDoctor(doctor12);
+        // department1.addDoctor(doctor11);
+        // department3.addDoctor(doctor13);
+        // department4.addDoctor(doctor14);
+        // department1.addDoctor(doctor16);
+        // department5.addDoctor(doctor15);
+        // department3.addDoctor(doctor18);
+        // department2.addDoctor(doctor17);
+        // department4.addDoctor(doctor19);
+        // department5.addDoctor(doctor20);
 
         Inventory.addInventory("Paracetamol", 100, LocalDateTime.of(2024, 12, 30, 0, 0), department1);
         Inventory.addInventory("Syringes", 200, LocalDateTime.of(2025, 1, 15, 0, 0), department2);
@@ -113,7 +126,7 @@ public class HospitalOop {
         Inventory.addInventory("MRI Contrast Dye", 20, LocalDateTime.of(2025, 2, 1, 0, 0), department4);
         Inventory.addInventory("Defibrillator Pads", 40, LocalDateTime.of(2026, 4, 30, 0, 0), department5);
 
-//        Admin admin = new Admin(1, "Satrio", "Asadel", "admin", "admin123");
-//        Session.setCurrentUser(admin);
+        // Admin admin = new Admin(1, "Satrio", "Asadel", "admin", "admin123");
+        // Session.setCurrentUser(admin);
     }
 }

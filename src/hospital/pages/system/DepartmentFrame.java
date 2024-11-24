@@ -9,13 +9,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-// import java.time.LocalDate;
-// import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,17 +24,14 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import hospital.pages.base.BaseFrame;
-// import hospital.program.Appointment;
 import hospital.program.Department;
-import hospital.program.Doctor;
-// import hospital.program.Patient;
 
 /**
  *
  * @author LENOVO
  */
-public class DepartmentFrame extends BaseFrame {
-  private int index = 1;
+public class DepartmentFrame extends BaseFrame implements TableHandler {
+  private int index;
   private JTable table;
   private DefaultTableModel tableModel;
 
@@ -55,81 +49,76 @@ public class DepartmentFrame extends BaseFrame {
 
     JButton addButton = new JButton("Add Departement");
     addButton.setBounds(720, 60, 140, 30);
+    addButton.setFocusPainted(false);
     addButton.addActionListener(e -> addDepartment());
     content.add(addButton);
 
-    String[] columnNames = {"ID", "Name", "Head Doctor", "Edit", "Delete", "", ""};
+    String[] columnNames = {"NO", "Name", "Edit", "Delete", ""};
     tableModel = new DefaultTableModel(columnNames, 0) {
       @Override
       public boolean isCellEditable(int row, int column) {
-          return column == 3 || column == 4;
+          return column == 3 || column == 2;
       }
     };
     table = new JTable(tableModel);
 
+    JButton editButton = new JButton("Edit");
+    editButton.setFocusPainted(false);
+    JButton deleteButton = new JButton("Delete");
+    deleteButton.setFocusPainted(false);
+    table.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
+    table.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(editButton, "edit"));
     table.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
-    table.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JButton("Edit"), "edit"));
-    table.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
-    table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JButton("Delete"), "delete"));
+    table.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(deleteButton, "delete"));
 
     JScrollPane scrollPane = new JScrollPane(table);
     scrollPane.setBounds(40, 113, 820, 415);
     content.add(scrollPane);
   }
 
-  private void loadTableData() {
+  public void loadTableData() {
+    index = 1;
     tableModel.setRowCount(0);
     List<Department> departments = Department.getDepartments();
     for (Department department : departments) {
-      // Doctor doctor = department.getHeadDoctor();
       Object[] rowData = {
         index++,
         department.getName(),
-        department.getHeadDoctor(),
         "Edit",
         "Delete",
         department.getDepartmentId(),
-        department.getHeadDoctor().getId(),
       };
       tableModel.addRow(rowData);
     }
 
-    table.getColumnModel().getColumn(5).setMaxWidth(0);
-    table.getColumnModel().getColumn(5).setMinWidth(0);
-    table.getColumnModel().getColumn(6).setMinWidth(0);
-    table.getColumnModel().getColumn(6).setMaxWidth(0);
+    table.getColumnModel().getColumn(4).setMaxWidth(0);
+    table.getColumnModel().getColumn(4).setMinWidth(0);
   }
 
   private void addDepartment() {
-    JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));
-
-    List<Doctor> doctors = Doctor.getDoctors();
+    JPanel panel = new JPanel(new GridLayout(1, 2, 10, 10));
 
     JTextField nameField = new JTextField();
-    JComboBox<Doctor> doctorComboBox = new JComboBox<>(doctors.toArray(new Doctor[0]));
 
     panel.add(new JLabel("Department Name:"));
     panel.add(nameField);
-    panel.add(new JLabel("Head Doctor:"));
-    panel.add(doctorComboBox);
 
     int result = JOptionPane.showConfirmDialog(this, panel, "Add Departement", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
     if (result == JOptionPane.OK_OPTION) {
       try {
         String name = nameField.getText().trim();
-        Doctor selectedDoctor = (Doctor) doctorComboBox.getSelectedItem();
 
-        if (name == null || selectedDoctor == null) {
+        if (name.isEmpty()) {
           throw new IllegalArgumentException("All fields are required.");
         }
+        if (checkName(name)) throw new Exception("Duplicate department name detected.");
 
-        Department department = new Department(Department.getLastId(), name, selectedDoctor);
+        Department department = new Department(Department.getLastId(), name);
         Department.addDepartment(department);
 
-        tableModel.addRow(new Object[]{Department.getLastId(), name, selectedDoctor.getFirstName(), "Edit", "Delete"});
-
-        JOptionPane.showMessageDialog(this, "Appointment added successfully!");
+        loadTableData(); // Load
+        JOptionPane.showMessageDialog(this, "Department added successfully!");
       } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
@@ -138,18 +127,12 @@ public class DepartmentFrame extends BaseFrame {
 
   private void editDepartment(int row) {
     String name = (String) tableModel.getValueAt(row, 1);
-    int departmentId = (int) tableModel.getValueAt(row, 5);
-    int doctorId = (int) tableModel.getValueAt(row, 6);
+    int departmentId = (int) tableModel.getValueAt(row, 4);
 
     JTextField nameField = new JTextField(name);
-    
-    Doctor doctor = Doctor.getDoctorById(doctorId);
-    JComboBox<Doctor> doctorComboBox = new JComboBox<>(Doctor.getDoctors().toArray(new Doctor[0]));
-    doctorComboBox.setSelectedItem(doctor);
 
     Object[] message = {
       "Name:", nameField,
-      "Head Doctor:", doctorComboBox,
     };
 
     int option = JOptionPane.showConfirmDialog(
@@ -159,26 +142,31 @@ public class DepartmentFrame extends BaseFrame {
       JOptionPane.OK_CANCEL_OPTION
     );
 
-    if (option == JOptionPane.OK_OPTION) {
-      Doctor selectedDoctor = (Doctor) doctorComboBox.getSelectedItem();
+    try {
+      String nameAns = nameField.getText().trim();
+      if (nameAns.isEmpty()) throw new IllegalArgumentException("All fields are required.");
+      if (checkName(nameAns)) throw new Exception("Duplicate department name detected.");
 
-      boolean updated = Department.editDepartmentById(
-        departmentId,
-        name,
-        selectedDoctor
-      );
-
-      if (updated) {
-        JOptionPane.showMessageDialog(this, "Doctor data updated successfully!");
-        loadTableData(); // Load
-      } else {
-        JOptionPane.showMessageDialog(this, "Failed to update doctor data. Please check the details.");
+      if (option == JOptionPane.OK_OPTION) {
+        boolean updated = Department.editDepartmentById(
+          departmentId,
+          nameAns
+        );
+  
+        if (updated) {
+          loadTableData(); // Load
+          JOptionPane.showMessageDialog(this, "Department data updated successfully!");
+        } else {
+          JOptionPane.showMessageDialog(this, "Failed to update Department data. Please check the details.");
+        }
       }
+    } catch (Exception ex) {
+      JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
 
   private void deleteDepartment(int row) {
-    int departmentId = (int) tableModel.getValueAt(row, 0);
+    int departmentId = (int) tableModel.getValueAt(row, 4);
 
     int confirmation = JOptionPane.showConfirmDialog(
         this,
@@ -187,16 +175,25 @@ public class DepartmentFrame extends BaseFrame {
         JOptionPane.YES_NO_OPTION
     );
 
-    if (confirmation == JOptionPane.YES_OPTION) {
-      boolean deleted = Department.deleteDepartmentById(departmentId);
-
-      if (deleted) {
-        tableModel.removeRow(row);
-
-        JOptionPane.showMessageDialog(this, "Department deleted successfully.");
-      } else {
-        JOptionPane.showMessageDialog(this, "Failed to delete Doctor. ID not found.");
+    try {
+      Department curDepartment = Department.getDepartmentById(departmentId);
+      if (curDepartment.getDoctors() != null) {
+        throw new Exception("Cannot delete the department as it still has assigned doctors.");
+      } 
+      if (confirmation == JOptionPane.YES_OPTION) {
+        boolean deleted = Department.deleteDepartmentById(departmentId);
+  
+        if (deleted) {
+          tableModel.removeRow(row);
+          loadTableData();
+  
+          JOptionPane.showMessageDialog(this, "Department deleted successfully.");
+        } else {
+          JOptionPane.showMessageDialog(this, "Failed to delete Doctor. ID not found.");
+        }
       }
+    } catch (Exception ex) {
+      JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -232,7 +229,7 @@ public class DepartmentFrame extends BaseFrame {
 
     @Override
     public Object getCellEditorValue() {
-      return button.getText();
+      return button.getText().trim();
     }
 
     @Override
@@ -246,4 +243,7 @@ public class DepartmentFrame extends BaseFrame {
     }
   }
 
+  public boolean checkName(String name) {
+    return Department.isDepartmentNameUsed(name);
+  }
 }

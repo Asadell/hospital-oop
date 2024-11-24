@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class Appointment implements Schedulable { // Implementation
   private int appointmentId;
-  private Patient patient; // Association
-  private Doctor doctor;   // Association
+  private Patient patient = new Patient(); // Composition
+  private Doctor doctor = new Doctor();   // Composition
   private LocalDateTime appointmentDate;
   private String status;
   private static int lastId = 1;
@@ -23,13 +23,12 @@ public class Appointment implements Schedulable { // Implementation
 
   public Appointment(int appointmentId, Patient patient, Doctor doctor, LocalDateTime appointmentDate, String status) {
     this.appointmentId = appointmentId;
-    this.patient = patient; // Association
-    this.doctor = doctor;   // Association
+    this.patient = patient; // Composition
+    this.doctor = doctor;   // Composition
     this.appointmentDate = appointmentDate;
     this.status = status;
 
     LocalDateTime billingDate = LocalDateTime.of(2024, 11, 21, 14, 30);
-    Billing.addBilling(patient, 0, billingDate, "Unpaid");
   }
 
   public static void addAppointment(Appointment appointment) {
@@ -54,6 +53,9 @@ public class Appointment implements Schedulable { // Implementation
         appointment.setDoctor(doctor);
         appointment.setSchedule(appointmentDate);
         appointment.setStatus(status);
+        if (status.equals("Completed")) {
+          Billing.addBilling(patient, 100000, appointmentDate, "Unpaid");
+        }
         return true;
       }
     }

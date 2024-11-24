@@ -73,6 +73,16 @@ public class Inventory {
     return false;
   }
 
+  public static boolean isInventoryNameUsed(String inventoryName) {
+    for (Inventory inventory : inventories) {
+      if (inventory.getItemName().equals(inventoryName)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   public static List<Inventory> getInventories() {
     return inventories;
   }

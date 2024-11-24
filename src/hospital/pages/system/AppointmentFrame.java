@@ -35,10 +35,11 @@ import hospital.program.Patient;
  *
  * @author LENOVO
  */
-public class AppointmentFrame extends BaseFrame {
-  private int index = 1;
+public class AppointmentFrame extends BaseFrame implements TableHandler {
+  private int index;
   private JTable table;
   private DefaultTableModel tableModel;
+  String[] statuses = {"Scheduled", "Completed", "Canceled"};
   
   public AppointmentFrame() {
     super("Appointment", true);
@@ -54,10 +55,11 @@ public class AppointmentFrame extends BaseFrame {
 
     JButton addButton = new JButton("Add Appointment");
     addButton.setBounds(720, 60, 140, 30);
+    addButton.setFocusPainted(false);
     addButton.addActionListener(e -> addAppointment());
     content.add(addButton);
 
-    String[] columnNames = {"ID", "Patient Name", "Doctor Name", "Schedule", "Status", "Edit", "", "", ""};
+    String[] columnNames = {"NO", "Patient Name", "Doctor Name", "Schedule", "Status", "Edit", "", "", ""};
     tableModel = new DefaultTableModel(columnNames, 0) {
       @Override
       public boolean isCellEditable(int row, int column) {
@@ -66,20 +68,21 @@ public class AppointmentFrame extends BaseFrame {
     };
     table = new JTable(tableModel);
 
+    JButton editButton = new JButton("Edit");
+    editButton.setFocusPainted(false);
     table.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
-    table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JButton("Edit"), "edit"));
+    table.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(editButton, "edit"));
 
     JScrollPane scrollPane = new JScrollPane(table);
     scrollPane.setBounds(40, 113, 820, 415);
     content.add(scrollPane);
   }
 
-  private void loadTableData() {
+  public void loadTableData() {
+    index = 1;
     tableModel.setRowCount(0);
     List<Appointment> appointments = Appointment.getAppointments();
     for (Appointment appointment : appointments) {
-      // Patient patient = appointment.getPatient();
-      // Doctor doctor = appointment.getDoctor();
       Object[] rowData = {
         index++,
         appointment.getPatient().toString(),
@@ -113,7 +116,6 @@ public class AppointmentFrame extends BaseFrame {
 
     JTextField dateField = new JTextField("YYYY-MM-DD");
 
-    String[] statuses = {"Scheduled", "Completed", "Canceled"};
     JComboBox<String> statusComboBox = new JComboBox<>(statuses);
 
     panel.add(new JLabel("Patient:"));
@@ -169,9 +171,15 @@ public class AppointmentFrame extends BaseFrame {
 
     JTextField appointmentDateField = new JTextField(appointmentDate.toLocalDate().toString());
 
-    String[] statuses = {"Scheduled", "Completed", "Canceled"};
     JComboBox<String> statusComboBox = new JComboBox<>(statuses);
     statusComboBox.setSelectedItem(status);
+
+    if (status.equals("Completed") || status.equals("Canceled")) {
+      patientComboBox.setEnabled(false);
+      statusComboBox.setEnabled(false);
+      doctorComboBox.setEnabled(false);
+      appointmentDateField.setEditable(false);
+    }
 
     Object[] message = {
       "Patient:", patientComboBox,
@@ -246,7 +254,7 @@ public class AppointmentFrame extends BaseFrame {
 
     @Override
     public Object getCellEditorValue() {
-      return button.getText();
+      return button.getText().trim();
     }
 
     @Override

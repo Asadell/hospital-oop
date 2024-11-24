@@ -25,6 +25,7 @@ public abstract class BaseFrame extends JFrame {
     protected JPanel header = new JPanel();
     protected JPanel backgroundContent = new JPanel();
     protected JPanel content = new JPanel();
+    Sidebar sidebarPanel; // Composition
 
     public BaseFrame(String title, boolean isDashboard) {
         super(title);
@@ -57,7 +58,7 @@ public abstract class BaseFrame extends JFrame {
             adminName.setForeground(color.TEXT_MAIN);
             header.add(adminName);
 
-            Sidebar sidebarPanel = new Sidebar();
+            sidebarPanel = new Sidebar();
             sidebarPanel.setBounds(0, 60, 300, 660);
             sidebarPanel.setLayout(null);
 
